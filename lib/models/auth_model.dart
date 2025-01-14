@@ -80,16 +80,16 @@ class ForgetPasswordResponseModel {
 
 
 
-class ChhangetPasswordRequestModel {
+class ChangetPasswordRequestModel {
     String? oldPassword;
     String? newPassword;
 
-    ChhangetPasswordRequestModel({
+    ChangetPasswordRequestModel({
         this.oldPassword,
         this.newPassword,
     });
 
-    factory ChhangetPasswordRequestModel.fromJson(Map<String, dynamic> json) => ChhangetPasswordRequestModel(
+    factory ChangetPasswordRequestModel.fromJson(Map<String, dynamic> json) => ChangetPasswordRequestModel(
         oldPassword: json["old_password"],
         newPassword: json["new_password"],
     );
@@ -100,18 +100,3 @@ class ChhangetPasswordRequestModel {
     };
 }
 
-class ChhangetPasswordResponseModel {
-    String? message;
-
-    ChhangetPasswordResponseModel({
-        this.message,
-    });
-
-    factory ChhangetPasswordResponseModel.fromJson(Map<String, dynamic> json) => ChhangetPasswordResponseModel(
-        message: json["message"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "message": message,
-    };
-}
