@@ -3,17 +3,17 @@ import 'package:resturant/bloc/users/users_event.dart';
 import 'package:resturant/bloc/users/users_state.dart';
 import 'package:resturant/service/users_list_service.dart';
 
-class UserListBloc extends Bloc<UserEvent, UserState> {
+class UserListBloc extends Bloc<UserEvent, UserListState> {
   final UserService userService;
 
-  UserListBloc(this.userService) : super(UserInitial()) {
+  UserListBloc(this.userService) : super(UserListInitial()) {
     on<FetchUsersEvent>((event, emit) async {
-      emit(UserLoading());
+      emit(UserListLoading());
       try {
         final users = await userService.fetchUsers();
-        emit(UserLoaded(users));
+        emit(UserListLoaded(users));
       } catch (e) {
-        emit(UserError('Failed to fetch user data'));
+        emit(UserListError('Failed to fetch user data'));
       }
     });
   }

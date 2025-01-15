@@ -28,12 +28,7 @@ class ChangePasswordScreen extends StatelessWidget {
         ),
         backgroundColor: AppColor.primaryColor,
         centerTitle: true,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Icon(Icons.arrow_back_ios_new, color: Colors.white),
-        ),
+        automaticallyImplyLeading: false,
       ),
       body: BlocConsumer<ChangePasswordBloc, ChangePasswordState>(
         listener: (context, state) {

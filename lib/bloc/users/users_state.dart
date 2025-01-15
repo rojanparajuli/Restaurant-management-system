@@ -2,27 +2,27 @@
 
 import 'package:resturant/models/user_list_model.dart';
 
-abstract class UserState   {
+abstract class UserListState   {
   List<Object?> get props => [];
 }
 
-class UserInitial extends UserState {}
+class UserListInitial extends UserListState {}
 
-class UserLoading extends UserState {}
+class UserListLoading extends UserListState {}
 
-class UserLoaded extends UserState {
+class UserListLoaded extends UserListState {
   final List<UsersList> users;
 
-  UserLoaded(this.users);
+  UserListLoaded(this.users);
 
   @override
   List<Object?> get props => [users];
 }
 
-class UserError extends UserState {
+class UserListError extends UserListState {
   final String message;
 
-  UserError(this.message);
+  UserListError(this.message);
 
   @override
   List<Object?> get props => [message];
