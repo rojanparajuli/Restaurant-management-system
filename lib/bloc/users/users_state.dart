@@ -1,5 +1,3 @@
-
-
 import 'package:resturant/models/user_list_model.dart';
 
 abstract class UserListState   {

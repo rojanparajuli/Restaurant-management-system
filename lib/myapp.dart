@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resturant/bloc/auth/auth_bloc.dart';
 import 'package:resturant/bloc/change_password/change_password_bloc.dart';
 import 'package:resturant/bloc/side_menu/side_menu_bloc.dart';
+import 'package:resturant/bloc/users/edit/users_edit_bloc.dart';
 import 'package:resturant/bloc/users/users_bloc.dart';
 import 'package:resturant/bloc/users/users_event.dart';
 import 'package:resturant/screen/login_view.dart';
@@ -30,7 +31,9 @@ class MyApp extends StatelessWidget {
           create: (context) => UserListBloc(UserService())..add(FetchUsersEvent()),
         ),
         BlocProvider(
-      create: (context) => SideMenuCubit(),)
+      create: (context) => SideMenuCubit(),),
+      BlocProvider(
+        create: (context) => EditUserBloc(UserEditService())),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

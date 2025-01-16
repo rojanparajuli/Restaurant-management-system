@@ -16,5 +16,20 @@ class UserListBloc extends Bloc<UserEvent, UserListState> {
         emit(UserListError('Failed to fetch user data'));
       }
     });
+
+    on<UserSearchEvent>((event, emit) async {
+      emit(UserListLoading());
+      try {
+        final users = await userService.fetchUsers();
+        final filteredUsers = users
+            .where((user) =>
+                user.username?.toLowerCase().contains(event.query.toLowerCase()) ??
+                false)
+            .toList();
+        emit(UserListLoaded(filteredUsers));
+      } catch (e) {
+        emit(UserListError('Failed to search user data'));
+      }
+    });
   }
 }
