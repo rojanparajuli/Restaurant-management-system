@@ -6,14 +6,13 @@ String usersListToJson(List<UsersList> data) => json.encode(List<dynamic>.from(d
 
 class UsersList {
     int ?id;
-    String? password;
     DateTime? lastLogin;
     bool ?isSuperuser;
     String? username;
     String? firstName;
     String? lastName;
     String? email;
-    bool? isStaff;
+    // bool? isStaff;
     bool? isActive;
     DateTime ?dateJoined;
     String? role;
@@ -36,19 +35,15 @@ class UsersList {
     String? bankAccountNumber;
     String? bloodGroup;
     String? branch;
-    List<dynamic> ?groups;
-    List<dynamic> ?userPermissions;
 
     UsersList({
         this.id,
-        this.password,
         this.lastLogin,
         this.isSuperuser,
         this.username,
         this.firstName,
         this.lastName,
         this.email,
-        this.isStaff,
         this.isActive,
         this.dateJoined,
         this.role,
@@ -71,20 +66,16 @@ class UsersList {
         this.bankAccountNumber,
         this.bloodGroup,
         this.branch,
-        this.groups,
-        this.userPermissions,
     });
 
    factory UsersList.fromJson(Map<String, dynamic> json) => UsersList(
   id: json["id"] as int?,
-  password: json["password"] as String?,
   lastLogin: json["last_login"] != null ? DateTime.tryParse(json["last_login"]) : null,
   isSuperuser: json["is_superuser"] as bool?,
   username: json["username"] as String?,
   firstName: json["first_name"] as String?,
   lastName: json["last_name"] as String?,
   email: json["email"] as String?,
-  isStaff: json["is_staff"] as bool?,
   isActive: json["is_active"] as bool?,
   dateJoined: json["date_joined"] != null ? DateTime.tryParse(json["date_joined"]) : null,
   role: json["role"] as String?,
@@ -107,20 +98,14 @@ class UsersList {
   bankAccountNumber: json["bank_account_number"] as String?,
   bloodGroup: json["blood_group"] as String?,
   branch: json["branch"] as String?,
-  groups: json["groups"] != null ? List<dynamic>.from(json["groups"]) : [],
-  userPermissions: json["user_permissions"] != null ? List<dynamic>.from(json["user_permissions"]) : [],
 );
 
     Map<String, dynamic> toJson() => {
-        "id": id,
-        "password": password,
-        "last_login": lastLogin?.toIso8601String(),
-        "is_superuser": isSuperuser,
+     
         "username": username,
         "first_name": firstName,
         "last_name": lastName,
         "email": email,
-        "is_staff": isStaff,
         "is_active": isActive,
         "date_joined": dateJoined?.toIso8601String(),
         "role": role,
@@ -143,7 +128,5 @@ class UsersList {
         "bank_account_number": bankAccountNumber,
         "blood_group": bloodGroup,
         "branch": branch,
-        "groups": List<dynamic>.from(groups!.map((x) => x)),
-        "user_permissions": List<dynamic>.from(userPermissions!.map((x) => x)),
     };
 }

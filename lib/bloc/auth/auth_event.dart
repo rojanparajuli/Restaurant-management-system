@@ -11,3 +11,5 @@ class ForgetPasswordEvent extends AuthEvent {
   final ForgetPasswordRequestModel request;
   ForgetPasswordEvent(this.request);
 }
+
+class LogoutEvent extends AuthEvent {}
