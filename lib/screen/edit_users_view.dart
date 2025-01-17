@@ -1,7 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resturant/api/api.dart';
+import 'package:resturant/bloc/users/list/users_bloc.dart';
+import 'package:resturant/bloc/users/list/users_event.dart';
 import 'package:resturant/components/colors.dart';
 import 'package:resturant/bloc/users/choose_image/image_choose_state.dart';
 import 'package:resturant/bloc/users/edit/users_edit_bloc.dart';
@@ -57,9 +58,7 @@ class EditUserScreen extends StatelessWidget {
     String selectedGender = user.gender ?? "";
     String selectedBloodGroup = user.bloodGroup ?? "";
     String selectedMaritalStatus = user.maritalStatus ?? "";
-
-
- 
+    bool isActiveStatus = user.isActive ?? false;
 
     return Scaffold(
       appBar: AppBar(
@@ -92,35 +91,53 @@ class EditUserScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                BlocListener<ImageChooseCubit, ImageChooseState>(
-
+                BlocListener<EditUserBloc, EditUserState>(
                   listener: (context, state) {
-                    if (state is ImageChooseSuccess) {
-                      showDialog(context: context, builder: (context) {
-                        return AlertDialog(
-                          title: Text('Upload Image'),
-                          content: Text('Are you sure you want to upload this image?'),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                context.read<EditUserBloc>().add(UploadImageEvent(state.imageUrl, user.id ??0 ));
-                                Navigator.pop(context);
-                                
-                              },
-                              child: Text('OK'),
-                            ),
-                          ],
-                        );
-                      },);
-                    } else if (state is ImageChooseFailure) {
+                    if (state is EditUserSuccess) {
+                      context.read<UserListBloc>().add(FetchUsersEvent());
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Error: ${state.errorMessage}')),
+                        SnackBar(content: Text('User updated successfully!')),
+                      );
+                      Navigator.pop(context);
+                    } else if (state is EditUserError) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Error: ${state.message}')),
                       );
                     }
                   },
-
-
-                    child:  GestureDetector(
+                  child: BlocListener<ImageChooseCubit, ImageChooseState>(
+                    listener: (context, state) {
+                      print('ImageChooseState: $state');
+                      if (state is ImageChooseSuccess) {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text('Upload Image'),
+                              content: Text(
+                                  'Are you sure you want to upload this image?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    context.read<EditUserBloc>().add(
+                                        UploadImageEvent(
+                                            state.imageUrl, user.id ?? 0));
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      } else if (state is ImageChooseFailure) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text('Error: ${state.errorMessage}')),
+                        );
+                      }
+                    },
+                    child: GestureDetector(
                       onTap: () {
                         context.read<ImageChooseCubit>().chooseProfilePicture();
                       },
@@ -163,7 +180,7 @@ class EditUserScreen extends StatelessWidget {
                               ),
                       ),
                     ),
-                  
+                  ),
                 ),
                 SizedBox(height: 16),
                 Row(
@@ -220,14 +237,30 @@ class EditUserScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CustomTextField(
+                    GestureDetector(
+                      onTap: () async {},
+                      child: CustomTextField(
+                        readOnly: true,
                         labelText: 'Date of Birth',
-                        controller: dateOfBirthController),
+                        controller: dateOfBirthController,
+                        onTap: () async {
+                          final date = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime.now(),
+                          );
+                          dateOfBirthController.text =
+                              date != null ? date.toString() : '';
+                        },
+                      ),
+                    ),
                     SizedBox(width: 16),
                     CustomTextField(
                         labelText: 'PAN Card', controller: panCardController),
                     SizedBox(width: 16),
                     CustomTextField(
+                        readOnly: true,
                         labelText: 'Citizenship',
                         controller: citizenshipController),
                   ],
@@ -368,42 +401,125 @@ class EditUserScreen extends StatelessWidget {
                     ),
                     Column(
                       children: [
-                        Stack(
-                          children: [
-                            GestureDetector(
-                              onTap: () {},
-                              child: SizedBox(
-                                width: 500,
-                                height: 50,
-                                child: Image.network(
-                                  "${Api.mediaUrl}${user.citizenshipImage}",
-                                  width: 200,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              left: 90,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      'Upload Citizenship Image',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold),
+                        BlocListener<EditUserBloc, EditUserState>(
+                          listener: (context, state) {
+                            if (state is CitizenshipUploadSuccess) {
+                              context
+                                  .read<UserListBloc>()
+                                  .add(FetchUsersEvent());
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text(
+                                        'Citizenship uploaded successfully!')),
+                              );
+                              Navigator.pop(context);
+                            } else if (state is CitizenshipUploadError) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text('Error: ${state.message}')),
+                              );
+                            }
+                          },
+                          child: GestureDetector(
+                            onTap: () {
+                              context
+                                  .read<ImageChooseCubit>()
+                                  .chooseCitizenshipImage();
+                            },
+                            child: Stack(
+                              children: [
+                                BlocListener<ImageChooseCubit,
+                                    ImageChooseState>(
+                                  listener: (context, state) {
+                                    if (state
+                                        is CitizenshipImageChooseSuccess) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: Text('Upload Image'),
+                                            content: Text(
+                                                'Are you sure you want to upload this image?'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  context
+                                                      .read<EditUserBloc>()
+                                                      .add(
+                                                          UploadCitizenshipEvent(
+                                                              state.imageUrl,
+                                                              user.id ?? 0));
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text('OK'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    } else if (state
+                                        is CitizenshipUploadError) {}
+                                  },
+                                  child: SizedBox(
+                                    width: 500,
+                                    height: 50,
+                                    child: Image.network(
+                                      "${Api.mediaUrl}${user.citizenshipImage}",
+                                      width: 200,
+                                      fit: BoxFit.cover,
                                     ),
-                                    Icon(
-                                      Icons.upload_file,
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                              ),
+                                Positioned(
+                                  left: 90,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          'Upload Citizenship Image',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Icon(
+                                          Icons.upload_file,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
                       ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 500,
+                      child: DropdownButtonFormField<String>(
+                        value: isActiveStatus.toString(),
+                        items: ["true", "false"]
+                            .map((status) => DropdownMenuItem(
+                                  value: status,
+                                  child: Text(status),
+                                ))
+                            .toList(),
+                        onChanged: (value) {
+                          isActiveStatus = value == 'true';
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'Is Active',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.zero,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -439,7 +555,20 @@ class EditUserScreen extends StatelessWidget {
                               gender: selectedGender,
                               bloodGroup: selectedBloodGroup,
                               maritalStatus: selectedMaritalStatus,
+                              fatherName: fatherNameController.text,
+                              dateOfBirth:
+                                  DateTime.parse(dateOfBirthController.text),
+                              panCard: panCardController.text,
+                              citizenship: citizenshipController.text,
+                              religion: religionController.text,
+                              bankName: banknameController.text,
+                              bankAccountNumber:
+                                  bankAccountNumberController.text,
+                              branch: branchController.text,
+                              isActive: isActiveStatus as bool?,
                             );
+
+                            print('submitted data: ${updatedUser.toJson()}');
 
                             context
                                 .read<EditUserBloc>()

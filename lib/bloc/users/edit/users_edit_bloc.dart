@@ -1,8 +1,6 @@
-import 'dart:math';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resturant/bloc/users/choose_image/image_choose_cubit.dart';
-import 'package:resturant/bloc/users/choose_image/image_choose_state.dart';
 import 'package:resturant/bloc/users/edit/users_edit_event.dart';
 import 'package:resturant/bloc/users/edit/users_edit_state.dart';
 import 'package:resturant/service/users_list_service.dart';
@@ -28,15 +26,29 @@ class EditUserBloc extends Bloc<EditUserEvent, EditUserState> {
     }
     );
     on <UploadImageEvent>((event, emit) async {
-      imageChooseCubit.chooseProfilePicture();
       emit(EditUserLoading());
-      try {
+      // try {
         await userEditService.uploadProfilePicture(event.userId, event.image);
         
           emit(EditUserSuccess('User updated successfully'));
        
+      // } catch (e) {
+
+      //   emit(EditUserError(e.toString()));
+      // }
+    });
+
+
+      on <UploadCitizenshipEvent>((event, emit) async {
+
+      emit(CitizenshipUploadLoading());
+      try {
+        await userEditService.uploadCitizenshipImage(event.userId, event.image);
+        
+          emit(CitizenshipUploadSuccess('User updated successfully'));
+       
       } catch (e) {
-        emit(EditUserError(e.toString()));
+        emit(CitizenshipUploadError(e.toString()));
       }
     });
   }
