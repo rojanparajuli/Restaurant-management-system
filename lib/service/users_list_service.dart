@@ -1,6 +1,6 @@
-import 'dart:convert'; // Import for JSON encoding/decoding
-import 'dart:io';
+import 'dart:convert'; 
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:resturant/api/api.dart';
 import 'package:resturant/models/user_list_model.dart';
 
@@ -71,10 +71,10 @@ class UserEditService {
 
 
 
- Future<String> uploadProfilePicture(int userId, File profilePicture) async {
-    try {
-      final uri = Uri.parse('$baseUrl$userId/users-edit/');
-      final request = http.MultipartRequest('POST', uri)
+ Future<String> uploadProfilePicture(int userId, XFile profilePicture) async {
+    // try {
+      final uri = Uri.parse('$baseUrl$userId/');
+      final request = http.MultipartRequest('PATCH', uri)
         ..fields['userId'] = userId.toString()
         ..files.add(await http.MultipartFile.fromPath(
           'image',
@@ -86,21 +86,22 @@ class UserEditService {
         print(response.reasonPhrase);
         print(response.stream.bytesToString());
       if (response.statusCode == 200) {
-        final responseBody = await response.stream.bytesToString();
-        final responseData = jsonDecode(responseBody);
-        return responseData['imageUrl']; 
+        // final responseBody = await response.stream.bytesToString();
+        // final responseData = jsonDecode(responseBody);
+        // return responseData['imageUrl']; 
+        return 'Image uploaded successfully';
       } else {
         throw Exception('Failed to upload profile picture: ${response.reasonPhrase}');
       }
-    } catch (e) {
-      throw Exception('Error uploading profile picture: $e');
-    }
+    // } catch (e) {
+    //   throw Exception('Error uploading profile picture: $e');
+    // }
   }
 
-  Future<String> uploadCitizenshipImage(int userId, File citizenshipImage) async {
+  Future<String> uploadCitizenshipImage(int userId, XFile citizenshipImage) async {
     try {
-      final uri = Uri.parse('$baseUrl$userId/users-edit/');
-      final request = http.MultipartRequest('POST', uri)
+      final uri = Uri.parse('$baseUrl$userId/');
+      final request = http.MultipartRequest('PATCH', uri)
         ..fields['userId'] = userId.toString()
         ..files.add(await http.MultipartFile.fromPath(
           'citizenship_image',
@@ -112,9 +113,10 @@ class UserEditService {
         print(response.reasonPhrase);
         print(response.stream.bytesToString());
       if (response.statusCode == 200) {
-        final responseBody = await response.stream.bytesToString();
-        final responseData = jsonDecode(responseBody);
-        return responseData['imageUrl']; 
+        // final responseBody = await response.stream.bytesToString();
+        // final responseData = jsonDecode(responseBody);
+        // return responseData['imageUrl']; 
+        return 'Citizenship image uploaded successfully';
       } else {
         throw Exception('Failed to upload citizenship image: ${response.reasonPhrase}');
       }
