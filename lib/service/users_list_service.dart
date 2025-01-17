@@ -1,4 +1,5 @@
 import 'dart:convert'; // Import for JSON encoding/decoding
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:resturant/api/api.dart';
 import 'package:resturant/models/user_list_model.dart';
@@ -67,4 +68,59 @@ class UserEditService {
       throw Exception('Error updating user: $e');
     }
   }
+
+
+
+ Future<String> uploadProfilePicture(int userId, File profilePicture) async {
+    try {
+      final uri = Uri.parse('$baseUrl$userId/users-edit/');
+      final request = http.MultipartRequest('POST', uri)
+        ..fields['userId'] = userId.toString()
+        ..files.add(await http.MultipartFile.fromPath(
+          'image',
+          profilePicture.path,
+        ));
+
+      final response = await request.send();
+        print(response.statusCode);
+        print(response.reasonPhrase);
+        print(response.stream.bytesToString());
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final responseData = jsonDecode(responseBody);
+        return responseData['imageUrl']; 
+      } else {
+        throw Exception('Failed to upload profile picture: ${response.reasonPhrase}');
+      }
+    } catch (e) {
+      throw Exception('Error uploading profile picture: $e');
+    }
+  }
+
+  Future<String> uploadCitizenshipImage(int userId, File citizenshipImage) async {
+    try {
+      final uri = Uri.parse('$baseUrl$userId/users-edit/');
+      final request = http.MultipartRequest('POST', uri)
+        ..fields['userId'] = userId.toString()
+        ..files.add(await http.MultipartFile.fromPath(
+          'citizenship_image',
+          citizenshipImage.path,
+        ));
+
+      final response = await request.send();
+        print(response.statusCode);
+        print(response.reasonPhrase);
+        print(response.stream.bytesToString());
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final responseData = jsonDecode(responseBody);
+        return responseData['imageUrl']; 
+      } else {
+        throw Exception('Failed to upload citizenship image: ${response.reasonPhrase}');
+      }
+    } catch (e) {
+      throw Exception('Error uploading citizenship image: $e');
+    }
+  }
 }
+

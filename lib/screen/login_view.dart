@@ -4,9 +4,9 @@ import 'package:resturant/bloc/auth/auth_bloc.dart';
 import 'package:resturant/bloc/auth/auth_state.dart';
 import 'package:resturant/bloc/auth/auth_event.dart';
 import 'package:resturant/models/auth_model.dart';
-import 'package:resturant/screen/dashboard_view.dart';
 import 'package:resturant/screen/forget_password_view.dart';
 import 'package:resturant/utilities/circle.dart';
+import 'package:resturant/components/side_menu.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -84,7 +84,7 @@ class LoginScreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const DashBoard()),
+                                  builder: (context) => const SideMenu()),
                             );
                           } else if (state is AuthError) {
                             ScaffoldMessenger.of(context).showSnackBar(

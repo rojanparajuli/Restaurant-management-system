@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:resturant/bloc/users/users_event.dart';
-import 'package:resturant/bloc/users/users_state.dart';
+import 'package:resturant/bloc/users/list/users_event.dart';
+import 'package:resturant/bloc/users/list/users_state.dart';
 import 'package:resturant/service/users_list_service.dart';
 
 class UserListBloc extends Bloc<UserEvent, UserListState> {

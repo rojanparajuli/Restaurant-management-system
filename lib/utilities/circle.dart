@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:resturant/api/colors.dart';
+import 'package:resturant/components/colors.dart';
 
 
 

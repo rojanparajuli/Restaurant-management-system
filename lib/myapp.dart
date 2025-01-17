@@ -3,14 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resturant/bloc/auth/auth_bloc.dart';
 import 'package:resturant/bloc/change_password/change_password_bloc.dart';
 import 'package:resturant/bloc/side_menu/side_menu_bloc.dart';
+import 'package:resturant/bloc/users/choose_image/image_choose_cubit.dart';
 import 'package:resturant/bloc/users/edit/users_edit_bloc.dart';
-import 'package:resturant/bloc/users/users_bloc.dart';
-import 'package:resturant/bloc/users/users_event.dart';
+import 'package:resturant/bloc/users/list/users_bloc.dart';
+import 'package:resturant/bloc/users/list/users_event.dart';
 import 'package:resturant/screen/login_view.dart';
 import 'package:resturant/service/auth_repository.dart';
 import 'package:resturant/service/change_password_service.dart';
 import 'package:resturant/service/users_list_service.dart';
-import 'package:resturant/utilities/side_menu.dart';
+import 'package:resturant/components/side_menu.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -34,6 +35,8 @@ class MyApp extends StatelessWidget {
       create: (context) => SideMenuCubit(),),
       BlocProvider(
         create: (context) => EditUserBloc(UserEditService())),
+        BlocProvider(
+        create: (context) => ImageChooseCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

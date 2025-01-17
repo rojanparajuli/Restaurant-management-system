@@ -1,16 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:resturant/api/api.dart';
-import 'package:resturant/api/colors.dart';
+import 'package:resturant/components/colors.dart';
 import 'package:resturant/models/user_list_model.dart';
 import 'package:resturant/screen/edit_users_view.dart';
 
-class UserDetailScreen extends StatelessWidget {
+class UserDetailScreen extends StatefulWidget {
   final UsersList user;
 
   const UserDetailScreen({super.key, required this.user});
 
   @override
+  State<UserDetailScreen> createState() => _UserDetailScreenState();
+}
+
+class _UserDetailScreenState extends State<UserDetailScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Perform any initialization logic here
+    debugPrint('UserDetailScreen initialized for ${widget.user.username}');
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final user = widget.user;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -39,10 +53,10 @@ class UserDetailScreen extends StatelessWidget {
       ),
       body: Stack(
         children: [
-               Opacity(
-            opacity: 0.1, 
+          Opacity(
+            opacity: 0.1,
             child: Image.asset(
-              'assets/icons/Business.png', 
+              'assets/icons/Business.png',
               width: double.infinity,
               height: double.infinity,
               fit: BoxFit.cover,
@@ -83,8 +97,7 @@ class UserDetailScreen extends StatelessWidget {
                         _buildInfoRow("Phone", user.phoneNumber),
                         _buildInfoRow("Address", user.address),
                         _buildInfoRow("Role", user.role),
-                                                _buildInfoRow("Role", user.isActive.toString()),
-
+                        _buildInfoRow("Active", user.isActive?.toString()),
                       ],
                     ),
                     _buildSectionCard(
@@ -109,7 +122,12 @@ class UserDetailScreen extends StatelessWidget {
                         _buildInfoRow("Employee ID", user.employeeId),
                         _buildInfoRow("Employee Type", user.employeeType),
                         _buildInfoRow("Branch", user.branch),
-                        _buildInfoRow("Joined Date", user.dateJoined.toString()),
+                        _buildInfoRow(
+                          "Joined Date",
+                          user.dateJoined != null
+                              ? user.dateJoined!.toLocal().toString().split(' ')[0]
+                              : "Not Available",
+                        ),
                       ],
                     ),
                     _buildSectionCard(
@@ -117,7 +135,6 @@ class UserDetailScreen extends StatelessWidget {
                       [
                         _buildInfoRow("Bank", user.bankName),
                         _buildInfoRow("Account Number", user.bankAccountNumber),
-                        _buildInfoRow("Blood Group", user.bloodGroup),
                       ],
                     ),
                     _buildSectionCard(
