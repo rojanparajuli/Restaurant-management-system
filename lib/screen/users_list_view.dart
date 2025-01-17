@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resturant/api/api.dart';
-import 'package:resturant/api/colors.dart';
-import 'package:resturant/bloc/users/users_bloc.dart';
-import 'package:resturant/bloc/users/users_event.dart';
-import 'package:resturant/bloc/users/users_state.dart';
+import 'package:resturant/components/colors.dart';
+import 'package:resturant/bloc/users/list/users_bloc.dart';
+import 'package:resturant/bloc/users/list/users_event.dart';
+import 'package:resturant/bloc/users/list/users_state.dart';
 import 'package:resturant/screen/user_detail_view.dart';
 
-class UserListScreen extends StatelessWidget {
+class UserListScreen extends StatefulWidget {
   const UserListScreen({super.key});
+
+  @override
+  State<UserListScreen> createState() => _UserListScreenState();
+}
+
+class _UserListScreenState extends State<UserListScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Fetch users when the screen is initialized
+    context.read<UserListBloc>().add(FetchUsersEvent());
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -10,12 +10,12 @@ class EditUserInitial extends EditUserState {}
 class EditUserLoading extends EditUserState {}
 
 class EditUserSuccess extends EditUserState {
-  final UsersList updatedUser;
+  final String message;
 
-  EditUserSuccess(this.updatedUser);
+  EditUserSuccess(this.message);
 
   @override
-  List<Object?> get props => [updatedUser];
+  List<Object?> get props => [message];
 }
 
 class EditUserError extends EditUserState {

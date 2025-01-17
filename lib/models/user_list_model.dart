@@ -6,13 +6,11 @@ String usersListToJson(List<UsersList> data) => json.encode(List<dynamic>.from(d
 
 class UsersList {
     int ?id;
-    DateTime? lastLogin;
     bool ?isSuperuser;
     String? username;
     String? firstName;
     String? lastName;
     String? email;
-    // bool? isStaff;
     bool? isActive;
     DateTime ?dateJoined;
     String? role;
@@ -38,7 +36,6 @@ class UsersList {
 
     UsersList({
         this.id,
-        this.lastLogin,
         this.isSuperuser,
         this.username,
         this.firstName,
@@ -70,7 +67,6 @@ class UsersList {
 
    factory UsersList.fromJson(Map<String, dynamic> json) => UsersList(
   id: json["id"] as int?,
-  lastLogin: json["last_login"] != null ? DateTime.tryParse(json["last_login"]) : null,
   isSuperuser: json["is_superuser"] as bool?,
   username: json["username"] as String?,
   firstName: json["first_name"] as String?,
@@ -104,7 +100,6 @@ class UsersList {
      
         "username": username,
         "first_name": firstName,
-        "last_name": lastName,
         "email": email,
         "is_active": isActive,
         "date_joined": dateJoined?.toIso8601String(),

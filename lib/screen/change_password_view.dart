@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:resturant/api/colors.dart';
+import 'package:resturant/components/colors.dart';
 import 'package:resturant/bloc/change_password/change_password_bloc.dart';
 import 'package:resturant/bloc/change_password/change_password_event.dart';
 import 'package:resturant/bloc/change_password/change_password_state.dart';

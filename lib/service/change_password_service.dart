@@ -14,6 +14,8 @@ class ChangePasswordService {
       headers: {'Content-Type': 'application/json'},
       body: json.encode(request.toJson()),
     );
+  print ( response.body);
+  print(response.statusCode);
 
     if (response.statusCode == 200) {
       return ChangePasswordResponseModel.fromJson(json.decode(response.body));
