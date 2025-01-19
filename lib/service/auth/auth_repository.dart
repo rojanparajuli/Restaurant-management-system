@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 import 'package:resturant/api/api.dart';
 import 'dart:convert';
 
-import 'package:resturant/models/auth_model.dart';
+import 'package:resturant/models/auth/auth_model.dart';
 
 class AuthService {
 

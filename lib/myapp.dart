@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resturant/bloc/auth/auth_bloc.dart';
-import 'package:resturant/bloc/change_password/change_password_bloc.dart';
+import 'package:resturant/bloc/auth/change_password/change_password_bloc.dart';
+import 'package:resturant/bloc/contact/contact_create_bloc.dart';
 import 'package:resturant/bloc/side_menu/side_menu_bloc.dart';
-import 'package:resturant/bloc/users/choose_image/image_choose_cubit.dart';
-import 'package:resturant/bloc/users/edit/users_edit_bloc.dart';
-import 'package:resturant/bloc/users/list/users_bloc.dart';
-import 'package:resturant/bloc/users/list/users_event.dart';
-import 'package:resturant/screen/login_view.dart';
-import 'package:resturant/service/auth_repository.dart';
-import 'package:resturant/service/change_password_service.dart';
-import 'package:resturant/service/users_list_service.dart';
+import 'package:resturant/bloc/employee/choose_image/image_choose_cubit.dart';
+import 'package:resturant/bloc/employee/edit/users_edit_bloc.dart';
+import 'package:resturant/bloc/employee/list/users_bloc.dart';
+import 'package:resturant/bloc/employee/list/users_event.dart';
+import 'package:resturant/screen/auth/login_view.dart';
+import 'package:resturant/service/auth/auth_repository.dart';
+import 'package:resturant/service/auth/change_password_service.dart';
+import 'package:resturant/service/contact/create_contact_service.dart';
+import 'package:resturant/service/employee/users_list_service.dart';
 import 'package:resturant/components/side_menu.dart';
 
 class MyApp extends StatelessWidget {
@@ -37,6 +39,8 @@ class MyApp extends StatelessWidget {
         create: (context) => EditUserBloc(UserEditService())),
         BlocProvider(
         create: (context) => ImageChooseCubit()),
+        BlocProvider(
+        create: (context) => ContactBloc(ContactService()))
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

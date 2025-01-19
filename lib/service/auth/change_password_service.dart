@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:resturant/api/api.dart';
-import 'package:resturant/models/change_password_model.dart';
+import 'package:resturant/models/auth/change_password_model.dart';
 
 class ChangePasswordService {
   ChangePasswordService();

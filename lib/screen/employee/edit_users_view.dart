@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resturant/api/api.dart';
 import 'package:resturant/components/colors.dart';
-import 'package:resturant/bloc/users/choose_image/image_choose_state.dart';
-import 'package:resturant/bloc/users/edit/users_edit_bloc.dart';
-import 'package:resturant/bloc/users/edit/users_edit_event.dart';
-import 'package:resturant/bloc/users/edit/users_edit_state.dart';
-import 'package:resturant/bloc/users/choose_image/image_choose_cubit.dart';
-import 'package:resturant/models/user_list_model.dart';
+import 'package:resturant/bloc/employee/choose_image/image_choose_state.dart';
+import 'package:resturant/bloc/employee/edit/users_edit_bloc.dart';
+import 'package:resturant/bloc/employee/edit/users_edit_event.dart';
+import 'package:resturant/bloc/employee/edit/users_edit_state.dart';
+import 'package:resturant/bloc/employee/choose_image/image_choose_cubit.dart';
+import 'package:resturant/models/employee/user_list_model.dart';
 import 'package:resturant/utilities/textfield_widget.dart';
 
 class EditUserScreen extends StatelessWidget {

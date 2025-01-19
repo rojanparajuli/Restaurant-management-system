@@ -3,10 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resturant/bloc/auth/auth_bloc.dart';
 import 'package:resturant/bloc/auth/auth_state.dart';
 import 'package:resturant/bloc/side_menu/side_menu_bloc.dart';
-import 'package:resturant/screen/change_password_view.dart';
-import 'package:resturant/screen/dashboard_view.dart';
-import 'package:resturant/screen/login_view.dart';
-import 'package:resturant/screen/users_list_view.dart';
+import 'package:resturant/screen/auth/change_password_view.dart';
+import 'package:resturant/screen/contact/contact_create_screen.dart';
+import 'package:resturant/screen/dashboard/dashboard_view.dart';
+import 'package:resturant/screen/auth/login_view.dart';
+import 'package:resturant/screen/employee/users_list_view.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({super.key});
@@ -56,6 +57,13 @@ class SideMenu extends StatelessWidget {
                       context.read<SideMenuCubit>().selectMenuItem(2);
                     },
                   ),
+                  ListTile(
+                    leading: const Icon(Icons.person_add, color: Colors.red),
+                    title: const Text('Create Contact'),
+                    onTap: () {
+                      context.read<SideMenuCubit>().selectMenuItem(3);
+                    },
+                  ),
                   const Divider(),
                   ListTile(
                     leading: const Icon(Icons.logout, color: Colors.red),
@@ -76,6 +84,7 @@ class SideMenu extends StatelessWidget {
                     const DashBoard(),
                     const UserListScreen(),
                     ChangePasswordScreen(),
+                    CreateContactScreen(),
                   ];
             
                   return pages[selectedIndex];
