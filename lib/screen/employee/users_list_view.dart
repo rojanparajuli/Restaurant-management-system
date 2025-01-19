@@ -36,83 +36,102 @@ class _UserListScreenState extends State<UserListScreen> {
         backgroundColor: AppColor.primaryColor,
         automaticallyImplyLeading: false,
       ),
-      body: Column(
+      body: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextFormField(
-              controller: searchController,
-              onChanged: (value) {
-                context.read<UserListBloc>().add(UserSearchEvent(value));
-              },
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                ),
-                hintText: 'Search',
-                prefixIcon: Icon(Icons.search),
-              ),
+               Opacity(
+            opacity: 0.1,
+            child: Image.asset(
+              'assets/icons/Business.png',
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.cover,
             ),
           ),
-          Expanded(
-            child: BlocBuilder<UserListBloc, UserListState>(
-              builder: (context, state) {
-                if (state is UserListLoading) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (state is UserListLoaded) {
-                  if (state.users.isEmpty) {
-                    return const Center(child: Text('No data found'));
-                  } else {
-                    return ListView.builder(
-                      itemCount: state.users.length,
-                      itemBuilder: (context, index) {
-                        final user = state.users[index];
-                        return Card(
-                          color: Colors.transparent,
-                          child: ListTile(
-                            leading: user.image != null
-                                ? CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                        "${Api.mediaUrl}${user.image!}"),
-                                  )
-                                : const CircleAvatar(
-                                    child: Icon(Icons.person),
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: TextFormField(
+                  controller: searchController,
+                  onChanged: (value) {
+                    context.read<UserListBloc>().add(UserSearchEvent(value));
+                  },
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                    ),
+                    hintText: 'Search',
+                    prefixIcon: Icon(Icons.search),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: BlocBuilder<UserListBloc, UserListState>(
+                  builder: (context, state) {
+                    if (state is UserListLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (state is UserListLoaded) {
+                      if (state.users.isEmpty) {
+                        return const Center(child: Text('No data found'));
+                      } else {
+                        return ListView.builder(
+                          itemCount: state.users.length,
+                          itemBuilder: (context, index) {
+                            final user = state.users[index];
+                            return Card(
+                              color: Colors.transparent,
+                              child: ListTile(
+                                leading: user.image != null
+                                    ? CircleAvatar(
+                                        backgroundImage: NetworkImage(
+                                            "${Api.mediaUrl}${user.image!}"),
+                                      )
+                                    : const CircleAvatar(
+                                        child: Icon(Icons.person),
+                                      ),
+                                title: Row(
+                                  children: [
+                                    Text("ID: ${user.id ?? 'Unknown'}"),
+                                    SizedBox(width: 16),
+                                    Text("Username: ${user.username ?? 'Unknown'}"),
+                                  ],
+                                ),
+                                subtitle: Text("Email: ${user.email ?? 'No Email'}"),
+                                trailing: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColor.primaryColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
                                   ),
-                            title: Text("Username: ${user.username ?? 'Unknown'}"),
-                            subtitle: Text("Email: ${user.email ?? 'No Email'}"),
-                            trailing: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColor.primaryColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            UserDetailScreen(user: user),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text(
+                                    'Detail',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                 ),
                               ),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        UserDetailScreen(user: user),
-                                  ),
-                                );
-                              },
-                              child: const Text(
-                                'Detail',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
+                            );
+                          },
                         );
-                      },
-                    );
-                  }
-                } else if (state is UserListError) {
-                  return Center(child: Text(state.message));
-                } else {
-                  return const Center(child: Text('No data found'));
-                }
-              },
-            ),
+                      }
+                    } else if (state is UserListError) {
+                      return Center(child: Text(state.message));
+                    } else {
+                      return const Center(child: Text('No data found'));
+                    }
+                  },
+                ),
+              ),
+            ],
           ),
         ],
       ),

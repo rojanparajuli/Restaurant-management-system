@@ -8,6 +8,9 @@ import 'package:resturant/screen/contact/contact_create_screen.dart';
 import 'package:resturant/screen/dashboard/dashboard_view.dart';
 import 'package:resturant/screen/auth/login_view.dart';
 import 'package:resturant/screen/employee/users_list_view.dart';
+import 'package:resturant/components/colors.dart';
+import 'package:resturant/screen/add_user_view.dart';
+
 
 class SideMenu extends StatelessWidget {
   const SideMenu({super.key});
@@ -31,7 +34,7 @@ class SideMenu extends StatelessWidget {
           children: [
             Container(
               width: 250,
-              color: Colors.red.shade100,
+              color: AppColor.primaryColor,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -72,11 +75,9 @@ class SideMenu extends StatelessWidget {
                       context.read<AuthBloc>().logout();
                       Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
 
-                      },
-                  ),
-                ],
-              ),
-            ),
+             
+             
+            
                 Expanded(
               child: BlocBuilder<SideMenuCubit, int>(
                 builder: (context, selectedIndex) {
@@ -85,15 +86,21 @@ class SideMenu extends StatelessWidget {
                     const UserListScreen(),
                     ChangePasswordScreen(),
                     CreateContactScreen(),
+                    AddUserView(),
                   ];
             
                   return pages[selectedIndex];
                 },
               ),
-            ),
-          ],
+            );
+                    },
+                  ),
+          ]
         ),
       ),
+          ],
+        )
+      )
     );
   }
 }

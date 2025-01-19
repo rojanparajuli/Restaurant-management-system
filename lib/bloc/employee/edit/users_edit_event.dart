@@ -1,6 +1,6 @@
-import 'dart:io';
 
 import 'package:resturant/models/employee/user_list_model.dart';
+import 'package:image_picker/image_picker.dart';
 
 abstract class EditUserEvent  {
   List<Object?> get props => [];
@@ -16,9 +16,20 @@ class EditUserSubmitEvent extends EditUserEvent {
 }
 
 class UploadImageEvent extends EditUserEvent {
-  final File image;
+  final XFile image;
   final int userId;
   UploadImageEvent(this.image, this.userId);
+  @override
+  List<Object?> get props => [
+    image,
+    userId,
+  ];
+}
+
+class UploadCitizenshipEvent extends EditUserEvent {
+  final XFile image;
+  final int userId;
+  UploadCitizenshipEvent(this.image, this.userId);
   @override
   List<Object?> get props => [
     image,

@@ -11,9 +11,10 @@ class ImageChooseCubit extends Cubit<ImageChooseState> {
 
       final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
 
-      if (image == null) {
+      if (image != null) {
+        emit(ImageChooseSuccess(image));
+      } else {
         emit(ImageChooseFailure("No image selected."));
-        return;
       }
 
   }
@@ -23,9 +24,11 @@ class ImageChooseCubit extends Cubit<ImageChooseState> {
 
       final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
 
-      if (image == null) {
+      if (image != null) {
+        emit(CitizenshipImageChooseSuccess(image));
+      } else {
         emit(ImageChooseFailure("No image selected."));
-        return;
       }
+
 }
 }
