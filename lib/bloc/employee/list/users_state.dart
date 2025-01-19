@@ -1,4 +1,4 @@
-import 'package:resturant/models/user_list_model.dart';
+import 'package:resturant/models/employee/user_list_model.dart';
 
 abstract class UserListState   {
   List<Object?> get props => [];

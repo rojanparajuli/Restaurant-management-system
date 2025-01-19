@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:resturant/bloc/users/choose_image/image_choose_state.dart';
+import 'package:resturant/bloc/employee/choose_image/image_choose_state.dart';
 
 class ImageChooseCubit extends Cubit<ImageChooseState> {
   final ImagePicker _picker = ImagePicker();

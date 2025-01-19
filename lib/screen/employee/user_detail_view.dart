@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:resturant/api/api.dart';
 import 'package:resturant/components/colors.dart';
-import 'package:resturant/models/user_list_model.dart';
-import 'package:resturant/screen/edit_users_view.dart';
+import 'package:resturant/models/employee/user_list_model.dart';
+import 'package:resturant/screen/employee/edit_users_view.dart';
 
 class UserDetailScreen extends StatefulWidget {
   final UsersList user;

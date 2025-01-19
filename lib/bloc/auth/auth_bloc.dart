@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resturant/bloc/auth/auth_event.dart';
 import 'package:resturant/bloc/auth/auth_state.dart';
-import 'package:resturant/models/auth_model.dart';
-import 'package:resturant/service/auth_repository.dart';
+import 'package:resturant/models/auth/auth_model.dart';
+import 'package:resturant/service/auth/auth_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {

@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resturant/bloc/auth/auth_bloc.dart';
 import 'package:resturant/bloc/auth/auth_state.dart';
 import 'package:resturant/bloc/auth/auth_event.dart';
-import 'package:resturant/models/auth_model.dart';
-import 'package:resturant/screen/forget_password_view.dart';
+import 'package:resturant/models/auth/auth_model.dart';
+import 'package:resturant/screen/auth/forget_password_view.dart';
 import 'package:resturant/utilities/circle.dart';
 import 'package:resturant/components/side_menu.dart';
 

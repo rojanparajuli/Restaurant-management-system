@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:resturant/api/api.dart';
-import 'package:resturant/models/user_list_model.dart';
+import 'package:resturant/models/employee/user_list_model.dart';
 
 class UserService {
   final String baseUrl = '${Api.baseUrl}auth/users/';

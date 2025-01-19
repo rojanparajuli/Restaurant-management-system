@@ -1,6 +1,6 @@
 
+import 'package:resturant/models/employee/user_list_model.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:resturant/models/user_list_model.dart';
 
 abstract class EditUserEvent  {
   List<Object?> get props => [];

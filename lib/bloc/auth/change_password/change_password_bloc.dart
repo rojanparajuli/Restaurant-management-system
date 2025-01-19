@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:resturant/models/change_password_model.dart';
-import 'package:resturant/service/change_password_service.dart';
+import 'package:resturant/models/auth/change_password_model.dart';
+import 'package:resturant/service/auth/change_password_service.dart';
 import 'change_password_event.dart';
 import 'change_password_state.dart';
 

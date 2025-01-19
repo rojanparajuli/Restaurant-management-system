@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resturant/api/api.dart';
 import 'package:resturant/components/colors.dart';
-import 'package:resturant/bloc/users/list/users_bloc.dart';
-import 'package:resturant/bloc/users/list/users_event.dart';
-import 'package:resturant/bloc/users/list/users_state.dart';
-import 'package:resturant/screen/user_detail_view.dart';
+import 'package:resturant/bloc/employee/list/users_bloc.dart';
+import 'package:resturant/bloc/employee/list/users_event.dart';
+import 'package:resturant/bloc/employee/list/users_state.dart';
+import 'package:resturant/screen/employee/user_detail_view.dart';
 
 class UserListScreen extends StatefulWidget {
   const UserListScreen({super.key});
