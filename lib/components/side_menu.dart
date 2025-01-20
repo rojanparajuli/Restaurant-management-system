@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resturant/bloc/auth/auth_bloc.dart';
 import 'package:resturant/bloc/side_menu/side_menu_bloc.dart';
 import 'package:resturant/components/colors.dart';
+import 'package:resturant/screen/add_user_view.dart';
 import 'package:resturant/screen/auth/change_password_view.dart';
 import 'package:resturant/screen/auth/login_view.dart';
 import 'package:resturant/screen/contact/contact_create_screen.dart';
@@ -70,6 +71,15 @@ class SideMenu extends StatelessWidget {
                     },
                   ),
                 ),
+                   Card(
+                  child: ListTile(
+                    leading: const Icon(Icons.person_add, color: Colors.red),
+                    title: const Text('Add Employee'),
+                    onTap: () {
+                      context.read<SideMenuCubit>().selectMenuItem(5);
+                    },
+                  ),
+                ),
                 const Divider(),
                 Card(
                   child: ListTile(
@@ -98,9 +108,10 @@ class SideMenu extends StatelessWidget {
                   ChangePasswordScreen(),
                   CreateContactScreen(),
                   ContactListView(),
+                  AddUserView()
                 ];
 
-                print("Selected Index: $selectedIndex"); // Debugging
+                print("Selected Index: $selectedIndex"); 
                 return pages[selectedIndex];
               },
             ),
