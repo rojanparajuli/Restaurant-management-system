@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:resturant/bloc/contact/contact_create_event.dart';
-import 'package:resturant/bloc/contact/contact_create_state.dart';
+import 'package:resturant/bloc/contact/create/contact_create_event.dart';
+import 'package:resturant/bloc/contact/create/contact_create_state.dart';
 import 'package:resturant/service/contact/create_contact_service.dart';
 
 
