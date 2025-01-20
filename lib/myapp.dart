@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resturant/bloc/auth/auth_bloc.dart';
 import 'package:resturant/bloc/auth/change_password/change_password_bloc.dart';
-import 'package:resturant/bloc/contact/contact_create_bloc.dart';
+import 'package:resturant/bloc/contact/create/contact_create_bloc.dart';
+import 'package:resturant/bloc/contact/list/contact_list_bloc.dart';
 import 'package:resturant/bloc/side_menu/side_menu_bloc.dart';
 import 'package:resturant/bloc/employee/choose_image/image_choose_cubit.dart';
 import 'package:resturant/bloc/employee/edit/users_edit_bloc.dart';
@@ -11,6 +12,7 @@ import 'package:resturant/bloc/employee/list/users_event.dart';
 import 'package:resturant/screen/auth/login_view.dart';
 import 'package:resturant/service/auth/auth_repository.dart';
 import 'package:resturant/service/auth/change_password_service.dart';
+import 'package:resturant/service/contact/contact_list_service.dart';
 import 'package:resturant/service/contact/create_contact_service.dart';
 import 'package:resturant/service/employee/users_list_service.dart';
 import 'package:resturant/components/side_menu.dart';
@@ -40,7 +42,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(
         create: (context) => ImageChooseCubit()),
         BlocProvider(
-        create: (context) => ContactBloc(ContactService()))
+        create: (context) => ContactBloc(ContactService())),
+        BlocProvider(create: (context)=> ContactListBloc(ContactListService()))
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

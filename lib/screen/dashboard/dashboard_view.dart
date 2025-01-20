@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:resturant/utilities/side_menu.dart';
 
 class DashBoard extends StatelessWidget {
   const DashBoard({super.key});
@@ -9,7 +8,6 @@ class DashBoard extends StatelessWidget {
     return Scaffold(
       body: Row(
         children: const [
-          // SideMenu(),
           Expanded(
             child: Center(
               child: Text(

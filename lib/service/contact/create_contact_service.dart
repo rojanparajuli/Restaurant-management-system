@@ -6,15 +6,15 @@ import 'package:resturant/models/contact/create_contact_model.dart';
 class ContactService {
   final String baseUrl = Api.baseUrl;
 
-
   Future<CreateContactResponseModel> createContact(
       CreateContactModel contact) async {
     final response = await http.post(
-      Uri.parse('${baseUrl}contact/create'),
+      Uri.parse('${baseUrl}contact/create/'),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(contact.toJson()),
     );
-
+    print(response.body);
+    print(response.statusCode);
     if (response.statusCode == 201) {
       return CreateContactResponseModel.fromJson(jsonDecode(response.body));
     } else {
