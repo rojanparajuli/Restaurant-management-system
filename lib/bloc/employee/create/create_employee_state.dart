@@ -17,3 +17,23 @@ class AddemployeeFailure extends AddEmployeeState {
 
   AddemployeeFailure(this.error);
 }
+
+class AddEmployeeImageSelected extends AddEmployeeState {
+  final String? imagePath;
+  final String? citizenshipImagePath;
+
+  AddEmployeeImageSelected(this.imagePath, this.citizenshipImagePath);
+}
+
+class AddEmployeeImageSelectedLoading extends AddEmployeeState {}
+class AddEmployeeImageSelectedError extends AddEmployeeState {
+  final String error;
+
+  AddEmployeeImageSelectedError(this.error);
+}
+
+class AddEmployeeImageSelectedSuccess extends AddEmployeeState {
+  final String message;
+
+  AddEmployeeImageSelectedSuccess(this.message);
+}
