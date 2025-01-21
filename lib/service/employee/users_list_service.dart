@@ -72,7 +72,6 @@ class UserEditService {
 
 
  Future<String> uploadProfilePicture(int userId, XFile profilePicture) async {
-    // try {
       final uri = Uri.parse('$baseUrl$userId/');
       final request = http.MultipartRequest('PATCH', uri)
         ..fields['userId'] = userId.toString()
@@ -86,16 +85,10 @@ class UserEditService {
         print(response.reasonPhrase);
         print(response.stream.bytesToString());
       if (response.statusCode == 200) {
-        // final responseBody = await response.stream.bytesToString();
-        // final responseData = jsonDecode(responseBody);
-        // return responseData['imageUrl']; 
         return 'Image uploaded successfully';
       } else {
         throw Exception('Failed to upload profile picture: ${response.reasonPhrase}');
       }
-    // } catch (e) {
-    //   throw Exception('Error uploading profile picture: $e');
-    // }
   }
 
   Future<String> uploadCitizenshipImage(int userId, XFile citizenshipImage) async {
@@ -113,9 +106,6 @@ class UserEditService {
         print(response.reasonPhrase);
         print(response.stream.bytesToString());
       if (response.statusCode == 200) {
-        // final responseBody = await response.stream.bytesToString();
-        // final responseData = jsonDecode(responseBody);
-        // return responseData['imageUrl']; 
         return 'Citizenship image uploaded successfully';
       } else {
         throw Exception('Failed to upload citizenship image: ${response.reasonPhrase}');
