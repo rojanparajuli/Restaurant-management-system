@@ -113,12 +113,12 @@ class ChangePasswordScreen extends StatelessWidget {
                             ),
                             SizedBox(height: 16),
                             SizedBox(
-                              height: 40,
+                              height: 50,
                               width: 800,
                               child: ElevatedButton(
                                   style: ButtonStyle(
                                       backgroundColor:
-                                          WidgetStateProperty.all(Colors.red),
+                                          WidgetStateProperty.all(AppColor.primaryColor),
                                       shape: WidgetStateProperty.all(
                                         RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(8),

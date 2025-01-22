@@ -10,19 +10,20 @@ import 'package:resturant/components/side_menu.dart';
 import 'package:resturant/models/employee/add_employee_model.dart';
 import 'dart:io';
 
+import 'package:resturant/utilities/textfield_widget.dart';
+
 class AddUserView extends StatefulWidget {
   const AddUserView({
     super.key,
   });
 
   @override
-  // ignore: library_private_types_in_public_api
-  _AddUserViewState createState() => _AddUserViewState();
+  AddUserViewState createState() => AddUserViewState();
 }
 
 final AddEmployeeRequestModel requestModel = AddEmployeeRequestModel();
 
-class _AddUserViewState extends State<AddUserView> {
+class AddUserViewState extends State<AddUserView> {
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -121,219 +122,239 @@ class _AddUserViewState extends State<AddUserView> {
                 icon: Icon(Icons.image),
                 label: Text("Upload Citizenship Image"),
               ),
-              TextField(
-                controller: usernameController,
-                decoration: InputDecoration(
-                  labelText: 'Username',
-                  hintText: 'Enter Username',
-                ),
+              Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      CustomTextField(
+                          labelText: 'Username',
+                          controller: usernameController),
+                      SizedBox(width: 10),
+                      CustomTextField(
+                          labelText: 'Email', controller: emailController),
+                      SizedBox(width: 10),
+                      CustomTextField(
+                          labelText: 'Password', controller: passwordController)
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      CustomTextField(
+                          labelText: 'Full Name',
+                          controller: fullnameController),
+                      SizedBox(width: 10),
+                      CustomTextField(
+                          labelText: 'Phone Number',
+                          controller: phoneNumberController),
+                      SizedBox(width: 10),
+                      CustomTextField(
+                          labelText: 'Emergency Contact',
+                          controller: emergencyContactController)
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      CustomTextField(
+                          labelText: 'Address', controller: addressController),
+                      SizedBox(width: 10),
+                      CustomTextField(
+                          labelText: 'Permanent Address',
+                          controller: permanentAddressController),
+                      SizedBox(width: 10),
+                      SizedBox(
+                        width: 500,
+                        child: TextField(
+                          controller: dateOfBirthController,
+                          readOnly: true,
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Date of Birth',
+                              hintText: 'Select Date of Birth',
+                              prefix: Icon(Icons.calendar_today)),
+                          onTap: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(1900),
+                              lastDate: DateTime.now(),
+                            );
+                            if (pickedDate != null) {
+                              dateOfBirthController.text =
+                                  "${pickedDate.toLocal()}".split(' ')[0];
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      CustomTextField(
+                          labelText: 'Religion',
+                          controller: religionController),
+                      SizedBox(width: 10),
+                      CustomTextField(
+                          labelText: 'Father Name',
+                          controller: fatherNameController),
+                      SizedBox(width: 10),
+                      CustomTextField(
+                          labelText: 'Pan Number',
+                          controller: pancardNumberController)
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      CustomTextField(
+                          labelText: 'Citizenship number',
+                          controller: citizenshipNumberController),
+                      SizedBox(width: 10),
+                      CustomTextField(
+                          labelText: 'Bank', controller: bankNameController),
+                      SizedBox(width: 10),
+                      CustomTextField(
+                          labelText: 'Bank Account Number',
+                          controller: bankAccountNumberController)
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      CustomTextField(
+                          labelText: 'Restro branch',
+                          controller: branchController),
+                      SizedBox(width: 10),
+                      SizedBox(
+                        width: 500,
+                        child: DropdownButtonFormField<String>(
+                          items: ['Admin', 'Supervisor', 'Staff', 'Chef']
+                              .map((role) => DropdownMenuItem(
+                                    value: role,
+                                    child: Text(role),
+                                  ))
+                              .toList(),
+                          onChanged: (value) {
+                            selectedRole = value ?? "";
+                          },
+                          decoration: InputDecoration(
+                            labelText: 'Role',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.zero,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      SizedBox(
+                        width: 500,
+                        child: DropdownButtonFormField<String>(
+                          items: ['Male', 'Female', 'Other']
+                              .map((g) => DropdownMenuItem(
+                                    value: g,
+                                    child: Text(g),
+                                  ))
+                              .toList(),
+                          onChanged: (value) {
+                            gender = value ?? "";
+                          },
+                          decoration: InputDecoration(
+                            labelText: 'Gender',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.zero,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      SizedBox(
+                        width: 500,
+                        child: DropdownButtonFormField<String>(
+                          items: ['Single', 'Married', 'Divorced', 'Widowed']
+                              .map((status) => DropdownMenuItem(
+                                    value: status,
+                                    child: Text(status),
+                                  ))
+                              .toList(),
+                          onChanged: (value) {
+                            maritalStatus = value ?? "";
+                          },
+                          decoration: InputDecoration(
+                            labelText: 'Marital Status',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.zero,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      SizedBox(
+                        width: 500,
+                        child: DropdownButtonFormField<String>(
+                          items: ['FullTime', 'PartTime']
+                              .map((type) => DropdownMenuItem(
+                                    value: type,
+                                    child: Text(type),
+                                  ))
+                              .toList(),
+                          onChanged: (value) {
+                            employeeType = value ?? "";
+                          },
+                          decoration: InputDecoration(
+                            labelText: 'Employee Type',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.zero,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      SizedBox(
+                        width: 500,
+                        child: DropdownButtonFormField<String>(
+                          items:
+                              ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
+                                  .map((bg) => DropdownMenuItem(
+                                        value: bg,
+                                        child: Text(bg),
+                                      ))
+                                  .toList(),
+                          onChanged: (value) {
+                            bloodGroup = value ?? "";
+                          },
+                          decoration: InputDecoration(
+                            labelText: 'Blood Group',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.zero,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              TextField(
-                controller: emailController,
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  hintText: 'Enter Email',
-                ),
-              ),
-              TextField(
-                controller: passwordController,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  hintText: 'Enter Password',
-                ),
-              ),
-              TextField(
-                controller: fullnameController,
-                decoration: InputDecoration(
-                  labelText: 'Full Name',
-                  hintText: 'Enter Full Name',
-                ),
-              ),
-              TextField(
-                controller: phoneNumberController,
-                decoration: InputDecoration(
-                  labelText: 'Phone Number',
-                  hintText: 'Enter Phone Number',
-                ),
-              ),
-              TextField(
-                controller: emergencyContactController,
-                decoration: InputDecoration(
-                  labelText: 'Emergency Contact',
-                  hintText: 'Enter Emergency Contact',
-                ),
-              ),
-              TextField(
-                controller: addressController,
-                decoration: InputDecoration(
-                  labelText: 'Address',
-                  hintText: 'Enter Address',
-                ),
-              ),
-              DropdownButtonFormField<String>(
-                // value: selectedRole,
-                items: ['Admin', 'Supervisor', 'Staff', 'Chef']
-                    .map((role) => DropdownMenuItem(
-                          value: role,
-                          child: Text(role),
-                        ))
-                    .toList(),
-                onChanged: (value) {
-                  // setState(() {
-                  selectedRole = value ?? "";
-                  // });
-                },
-                decoration: InputDecoration(
-                  labelText: 'Role',
-                ),
-              ),
-              TextField(
-                controller: permanentAddressController,
-                decoration: InputDecoration(
-                  labelText: 'Permanent Address',
-                  hintText: 'Enter Permanent Address',
-                ),
-              ),
-              DropdownButtonFormField<String>(
-                // value: gender,
-                items: ['Male', 'Female', 'Other']
-                    .map((g) => DropdownMenuItem(
-                          value: g,
-                          child: Text(g),
-                        ))
-                    .toList(),
-                onChanged: (value) {
-                  // setState(() {
-                  gender = value ?? "";
-                  // });
-                },
-                decoration: InputDecoration(
-                  labelText: 'Gender',
-                ),
-              ),
-              DropdownButtonFormField<String>(
-                // value: maritalStatus,
-                items: ['Single', 'Married', 'Divorced', 'Widowed']
-                    .map((status) => DropdownMenuItem(
-                          value: status,
-                          child: Text(status),
-                        ))
-                    .toList(),
-                onChanged: (value) {
-                  // setState(() {
-                  maritalStatus = value ?? "";
-                  // });
-                },
-                decoration: InputDecoration(
-                  labelText: 'Marital Status',
-                ),
-              ),
-              DropdownButtonFormField<String>(
-                // value: employeeType,
-                items: ['FullTime', 'PartTime']
-                    .map((type) => DropdownMenuItem(
-                          value: type,
-                          child: Text(type),
-                        ))
-                    .toList(),
-                onChanged: (value) {
-                  // setState(() {
-                  employeeType = value ?? "";
-                  // });
-                },
-                decoration: InputDecoration(
-                  labelText: 'Employee Type',
-                ),
-              ),
-              DropdownButtonFormField<String>(
-                // value: bloodGroup,
-                items: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
-                    .map((bg) => DropdownMenuItem(
-                          value: bg,
-                          child: Text(bg),
-                        ))
-                    .toList(),
-                onChanged: (value) {
-                  // setState(() {
-                  bloodGroup = value ?? "";
-                  // });
-                },
-                decoration: InputDecoration(
-                  labelText: 'Blood Group',
-                ),
-              ),
-              TextField(
-                controller: dateOfBirthController,
-                readOnly: true,
-                decoration: InputDecoration(
-                  labelText: 'Date of Birth',
-                  hintText: 'Select Date of Birth',
-                ),
-                onTap: () async {
-                  DateTime? pickedDate = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(1900),
-                    lastDate: DateTime.now(),
-                  );
-                  if (pickedDate != null) {
-                    // setState(() {
-                    dateOfBirthController.text =
-                        "${pickedDate.toLocal()}".split(' ')[0];
-                    // });
-                  }
-                },
-              ),
-              TextField(
-                controller: religionController,
-                decoration: InputDecoration(
-                  labelText: 'Religion',
-                  hintText: 'Enter Religion',
-                ),
-              ),
-              TextField(
-                controller: fatherNameController,
-                decoration: InputDecoration(
-                  labelText: 'Father Name',
-                  hintText: 'Enter Father Name',
-                ),
-              ),
-              TextField(
-                controller: pancardNumberController,
-                decoration: InputDecoration(
-                  labelText: 'Pancard Number',
-                  hintText: 'Enter Pancard Number',
-                ),
-              ),
-              TextField(
-                controller: citizenshipNumberController,
-                decoration: InputDecoration(
-                  labelText: 'Citizenship Number',
-                  hintText: 'Enter Citizenship Number',
-                ),
-              ),
-              TextField(
-                controller: bankNameController,
-                decoration: InputDecoration(
-                  labelText: 'Bank Name',
-                  hintText: 'Enter Bank Name',
-                ),
-              ),
-              TextField(
-                controller: bankAccountNumberController,
-                decoration: InputDecoration(
-                  labelText: 'Bank Account Number',
-                  hintText: 'Enter Bank Account Number',
-                ),
-              ),
-              TextField(
-                controller: branchController,
-                decoration: InputDecoration(
-                  labelText: 'Branch',
-                  hintText: 'Enter Branch',
-                ),
-              ),
-              SizedBox(height: 20),
+              SizedBox(height: 30),
               BlocListener<AddEmployeeBloc, AddEmployeeState>(
                 listener: (context, state) {
                   if (state is AddEmployeeSucess) {
@@ -359,7 +380,16 @@ class _AddUserViewState extends State<AddUserView> {
                     );
                   }
                 },
-                child: ElevatedButton(
+                child: SizedBox(
+                  height: 50,
+                  width: 500,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColor.primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
                     onPressed: () {
                       final addemployee = AddEmployeeRequestModel(
                         username: requestModel.username =
@@ -399,13 +429,17 @@ class _AddUserViewState extends State<AddUserView> {
                         branch: requestModel.branch = branchController.text,
                       );
 
-                      print("Submitted data: ${requestModel.toJson()}");
                       context.read<AddEmployeeBloc>().add(CreateEmployee(
                           addemployee,
                           context.read<ProfileImageCubit>().state!,
                           context.read<CitizenshipImageCubit>().state));
                     },
-                    child: Text('Add Employee')),
+                    child: Text(
+                      'Add Employee',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
