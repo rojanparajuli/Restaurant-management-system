@@ -6,6 +6,7 @@ import 'package:resturant/bloc/employee/create/create_employee_state.dart';
 import 'package:resturant/bloc/employee/create/cubits/citizenship_img_cubit.dart';
 import 'package:resturant/bloc/employee/create/cubits/profile_img_cubit.dart';
 import 'package:resturant/components/colors.dart';
+import 'package:resturant/components/side_menu.dart';
 import 'package:resturant/models/employee/add_employee_model.dart';
 import 'dart:io';
 
@@ -51,6 +52,7 @@ class _AddUserViewState extends State<AddUserView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           'Add User',
           style: TextStyle(color: Colors.white),
@@ -63,19 +65,6 @@ class _AddUserViewState extends State<AddUserView> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              // if (context.read<AddEmployeeBloc>().selectedImage != null)
-              //   CircleAvatar(
-              //     radius: 50,
-              //     backgroundImage: FileImage(File(context.read<AddEmployeeBloc>().selectedImage!.path)),
-              //   )
-              // else
-              //   CircleAvatar(
-              //     radius: 50,
-              //     backgroundColor: Colors.grey.shade300,
-              //     child:
-              //         Icon(Icons.person, size: 50, color: Colors.white),
-              //   ),
-      
               BlocBuilder<ProfileImageCubit, File?>(
                 builder: (context, state) {
                   if (state == null || state.path.isEmpty) {
@@ -97,7 +86,6 @@ class _AddUserViewState extends State<AddUserView> {
                 icon: Icon(Icons.image),
                 label: Text("Upload Image"),
               ),
-      
               BlocBuilder<CitizenshipImageCubit, File?>(
                 builder: (context, state) {
                   if (state != null && state.path.isNotEmpty) {
@@ -126,12 +114,9 @@ class _AddUserViewState extends State<AddUserView> {
                   );
                 },
               ),
-      
               TextButton.icon(
                 onPressed: () {
-                  context
-                      .read<CitizenshipImageCubit>()
-                      .pickCitizenshipImage();
+                  context.read<CitizenshipImageCubit>().pickCitizenshipImage();
                 },
                 icon: Icon(Icons.image),
                 label: Text("Upload Citizenship Image"),
@@ -299,7 +284,6 @@ class _AddUserViewState extends State<AddUserView> {
                   }
                 },
               ),
-      
               TextField(
                 controller: religionController,
                 decoration: InputDecoration(
@@ -358,7 +342,14 @@ class _AddUserViewState extends State<AddUserView> {
                         content: Text("Employee Added Successfully"),
                       ),
                     );
-                    Navigator.pop(context);
+                    context.read<ProfileImageCubit>().clearProfileImage();
+                    context
+                        .read<CitizenshipImageCubit>()
+                        .clearCitizenshipImage();
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return SideMenu();
+                    }));
                     context.read<AddEmployeeBloc>().add(ResetState());
                   } else if (state is AddemployeeFailure) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -379,8 +370,7 @@ class _AddUserViewState extends State<AddUserView> {
                         role: requestModel.role = selectedRole,
                         fullname: requestModel.fullname =
                             fullnameController.text,
-                        address: requestModel.address =
-                            addressController.text,
+                        address: requestModel.address = addressController.text,
                         phonenumber: requestModel.phonenumber =
                             phoneNumberController.text,
                         emergencycontact: requestModel.emergencycontact =
@@ -400,8 +390,7 @@ class _AddUserViewState extends State<AddUserView> {
                         bankaccountnumber: requestModel.bankaccountnumber =
                             bankAccountNumberController.text,
                         bloodgroup: requestModel.bloodgroup = bloodGroup,
-                        employeeType: requestModel.employeeType =
-                            employeeType,
+                        employeeType: requestModel.employeeType = employeeType,
                         gender: requestModel.gender = gender,
                         maritalStatus: requestModel.maritalStatus =
                             maritalStatus,
@@ -409,7 +398,7 @@ class _AddUserViewState extends State<AddUserView> {
                             dateOfBirthController.text,
                         branch: requestModel.branch = branchController.text,
                       );
-      
+
                       print("Submitted data: ${requestModel.toJson()}");
                       context.read<AddEmployeeBloc>().add(CreateEmployee(
                           addemployee,

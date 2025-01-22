@@ -463,11 +463,21 @@ class EditUserScreen extends StatelessWidget {
                                   child: SizedBox(
                                     width: 500,
                                     height: 50,
-                                    child: Image.network(
-                                      "${Api.mediaUrl}${user.citizenshipImage}",
-                                      width: 200,
-                                      fit: BoxFit.cover,
-                                    ),
+                                    child: user.citizenshipImage != null &&
+                                            user.citizenshipImage!.isNotEmpty
+                                        ? Image.network(
+                                            "${Api.mediaUrl}${user.citizenshipImage}",
+                                            width: 200,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : Icon(
+                                            Icons
+                                                .upload_file, 
+                                            size:
+                                                50, 
+                                            color: Colors
+                                                .grey, 
+                                          ),
                                   ),
                                 ),
                                 Positioned(
