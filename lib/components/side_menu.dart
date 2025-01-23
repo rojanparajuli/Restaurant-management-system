@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resturant/bloc/auth/auth_bloc.dart';
 import 'package:resturant/bloc/side_menu/side_menu_bloc.dart';
 import 'package:resturant/components/colors.dart';
+import 'package:resturant/screen/attendance/attendance_screen.dart';
 import 'package:resturant/screen/employee/add_user_view.dart';
 import 'package:resturant/screen/auth/change_password_view.dart';
 import 'package:resturant/screen/auth/login_view.dart';
@@ -80,6 +81,15 @@ class SideMenu extends StatelessWidget {
                     },
                   ),
                 ),
+                Card(
+                  child: ListTile(
+                    leading: const Icon(Icons.calendar_month, color: Colors.red),
+                    title: const Text('Attendance'),
+                    onTap: () {
+                      context.read<SideMenuCubit>().selectMenuItem(6);
+                    },
+                  ),
+                ),
                 const Divider(),
                 Card(
                   child: ListTile(
@@ -108,7 +118,8 @@ class SideMenu extends StatelessWidget {
                   ChangePasswordScreen(),
                   CreateContactScreen(),
                   ContactListView(),
-                  AddUserView()
+                  AddUserView(),
+                  AttendanceListScreen(),
                 ];
 
                 print("Selected Index: $selectedIndex"); 
