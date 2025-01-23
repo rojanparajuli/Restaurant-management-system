@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:resturant/bloc/attendance/get_attendance_cubit.dart';
 import 'package:resturant/bloc/auth/auth_bloc.dart';
 import 'package:resturant/bloc/auth/change_password/change_password_bloc.dart';
 import 'package:resturant/bloc/contact/create/contact_create_bloc.dart';
@@ -14,6 +15,7 @@ import 'package:resturant/bloc/employee/edit/users_edit_bloc.dart';
 import 'package:resturant/bloc/employee/list/users_bloc.dart';
 import 'package:resturant/bloc/employee/list/users_event.dart';
 import 'package:resturant/screen/auth/login_view.dart';
+import 'package:resturant/service/attendance/get_attendance_service.dart';
 import 'package:resturant/service/auth/auth_repository.dart';
 import 'package:resturant/service/auth/change_password_service.dart';
 import 'package:resturant/service/contact/contact_list_service.dart';
@@ -58,6 +60,11 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => CitizenshipImageCubit()),
           BlocProvider(
           create: (context) => DeleteUserCubit(deleteUserService),
+        ),
+          BlocProvider<GetAttendanceCubit>(
+          create: (context) => GetAttendanceCubit(
+            GetAttendanceService(authBloc: context.read<AuthBloc>()),
+          ),
         ),
       ],
       child: MaterialApp(
