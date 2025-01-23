@@ -1,22 +1,28 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:resturant/api/api.dart';
+import 'package:resturant/bloc/auth/auth_bloc.dart';
 import 'package:resturant/models/employee/add_employee_model.dart';
 import 'package:http/http.dart' as http;
 
 class AddEmployeeService {
+  final AuthBloc authBloc;
+
+  AddEmployeeService({required this.authBloc});
+
   final String baseUrl = Api.baseUrl;
 
   Future<AddEmployeeResponseModel> createUsersList(
-      AddEmployeeRequestModel model, File profilePicture, File citizenImage) async {
+      AddEmployeeRequestModel model,
+      File profilePicture,
+      File citizenImage) async {
     print('Requested to create employee...');
-      final Uri url = Uri.parse('${baseUrl}auth/register/');
 
+    final token = await authBloc.getKey();
+
+    final Uri url = Uri.parse('${baseUrl}auth/register/');
 
     try {
-
-      // form data
-
       final formData = {
         'username': model.username ?? '',
         'email': model.email ?? '',
@@ -39,25 +45,25 @@ class AddEmployeeService {
         'bank_account_number': model.bankaccountnumber ?? '',
         'blood_group': model.bloodgroup ?? '',
         'branch': model.branch ?? '',
-        
-        };
-       final request = http.MultipartRequest('POST', url);
-    request.files.add(await http.MultipartFile.fromPath(
-      'image', // field name should match the API's expected field name
-      profilePicture.path,
-    ));
-    request.files.add(await http.MultipartFile.fromPath(
-      'citizenship_image', // field name should match the API's expected field name
-      citizenImage.path,
-    ));
-    request.fields.addAll(formData);
-    request.headers.addAll({
-      "Content-Type": "multipart/form-data", // Ensure proper encoding
-    });
+      };
 
-    final streamedResponse = await request.send();
+      final request = http.MultipartRequest('POST', url)
+        ..headers.addAll({
+          "Authorization": "token $token",
+          "Content-Type": "multipart/form-data",
+        })
+        ..fields.addAll(formData)
+        ..files.add(await http.MultipartFile.fromPath(
+          'image',
+          profilePicture.path,
+        ))
+        ..files.add(await http.MultipartFile.fromPath(
+          'citizenship_image',
+          citizenImage.path,
+        ));
 
-    final response = await http.Response.fromStream(streamedResponse);
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
 
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.body}');
@@ -73,8 +79,4 @@ class AddEmployeeService {
       rethrow;
     }
   }
-
-
- 
 }
-

@@ -21,6 +21,7 @@ class CreateContactScreen extends StatelessWidget {
       appBar: AppBar(title: Text('Create Contact', style: TextStyle(color: Colors.white),),
       centerTitle: true,
       backgroundColor: AppColor.primaryColor,
+      automaticallyImplyLeading: false,
       ),
       body: BlocConsumer<ContactBloc, ContactState>(
         listener: (context, state) {
