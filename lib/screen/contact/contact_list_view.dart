@@ -30,6 +30,7 @@ class _ContactListViewState extends State<ContactListView> {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: AppColor.primaryColor,
+        automaticallyImplyLeading:  false,
       ),
       body: Column(
         children: [

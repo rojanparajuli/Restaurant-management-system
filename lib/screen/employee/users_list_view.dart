@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resturant/api/api.dart';
+import 'package:resturant/bloc/employee/delete/delete_user_state.dart';
 import 'package:resturant/components/colors.dart';
 import 'package:resturant/bloc/employee/list/users_bloc.dart';
 import 'package:resturant/bloc/employee/list/users_event.dart';
 import 'package:resturant/bloc/employee/list/users_state.dart';
+import 'package:resturant/bloc/employee/delete/delete_user_cubit.dart';
 import 'package:resturant/screen/employee/user_detail_view.dart';
 
 class UserListScreen extends StatefulWidget {
@@ -18,7 +20,6 @@ class _UserListScreenState extends State<UserListScreen> {
   @override
   void initState() {
     super.initState();
-    // Fetch users when the screen is initialized
     context.read<UserListBloc>().add(FetchUsersEvent());
   }
 
@@ -38,7 +39,7 @@ class _UserListScreenState extends State<UserListScreen> {
       ),
       body: Stack(
         children: [
-               Opacity(
+          Opacity(
             opacity: 0.1,
             child: Image.asset(
               'assets/icons/Business.png',
@@ -93,30 +94,80 @@ class _UserListScreenState extends State<UserListScreen> {
                                   children: [
                                     Text("ID: ${user.id ?? 'Unknown'}"),
                                     SizedBox(width: 16),
-                                    Text("Username: ${user.username ?? 'Unknown'}"),
+                                    Text(
+                                        "Username: ${user.username ?? 'Unknown'}"),
                                   ],
                                 ),
-                                subtitle: Text("Email: ${user.email ?? 'No Email'}"),
-                                trailing: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColor.primaryColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            UserDetailScreen(user: user),
+                                subtitle:
+                                    Text("Email: ${user.email ?? 'No Email'}"),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: AppColor.primaryColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
                                       ),
-                                    );
-                                  },
-                                  child: const Text(
-                                    'Detail',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                UserDetailScreen(user: user),
+                                          ),
+                                        );
+                                      },
+                                      child: const Text(
+                                        'Detail',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    BlocListener<DeleteUserCubit, DeleteUserState>(
+                                      listener: (context, state) {
+                                        if (state is DeleteUserStateSuccess) {
+                                          context
+                                              .read<UserListBloc>()
+                                              .add(FetchUsersEvent());
+
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text(state.message),
+                                              backgroundColor: Colors.green,
+                                            ),
+                                          );
+                                          // navigator.pop(context)
+                                        }
+                                        else if (state is DeleteUserStateError) {
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text(state.message),
+                                              backgroundColor: Colors.red,
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: AppColor.primaryColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          _deletedialogbox(context, user.id ?? 0);
+                                        },
+                                        child: const Text(
+                                          'Delete',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             );
@@ -137,4 +188,32 @@ class _UserListScreenState extends State<UserListScreen> {
       ),
     );
   }
+}
+
+_deletedialogbox(BuildContext context, int userid) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text('Delete User'),
+        content: const Text('Are you sure you want to delete this user?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('No'),
+          ),
+          TextButton(
+            onPressed: () {
+              context.read<DeleteUserCubit>().deleteUser(userid);
+              Navigator.of(context).pop();
+
+            },
+            child: const Text('Yes'),
+          ),
+        ],
+      );
+    },
+  );
 }

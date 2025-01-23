@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resturant/bloc/auth/auth_bloc.dart';
 import 'package:resturant/bloc/auth/auth_state.dart';
 import 'package:resturant/bloc/auth/auth_event.dart';
+import 'package:resturant/components/colors.dart';
 import 'package:resturant/models/auth/auth_model.dart';
 import 'package:resturant/screen/auth/forget_password_view.dart';
 import 'package:resturant/utilities/circle.dart';
@@ -102,7 +103,7 @@ class LoginScreen extends StatelessWidget {
                             child: ElevatedButton(
                               style: ButtonStyle(
                                 backgroundColor:
-                                    WidgetStateProperty.all(Colors.red),
+                                    WidgetStateProperty.all(AppColor.primaryColor),
                                 shape: WidgetStateProperty.all(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
