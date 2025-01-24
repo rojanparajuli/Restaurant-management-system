@@ -11,11 +11,11 @@ class GetAttendanceService {
 
   GetAttendanceService({required this.authBloc});
 
-  Future<dynamic> getAttendance() async {
+  Future<AttendanceListModel?> getAttendance() async {
     final token = await authBloc.getKey();
-    if (token == null || token.isEmpty) {
-      return 'Error: Invalid or missing token';
-    }
+    // if (token == null || token.isEmpty) {
+    //   return 'Error: Invalid or missing token';
+    // }
 
     try {
       final response = await http.get(
@@ -29,15 +29,15 @@ class GetAttendanceService {
       print('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
-        final List<dynamic> jsonData = json.decode(response.body);
-        return jsonData
-            .map((item) => AttendanceListModel.fromJson(item))
-            .toList();
+        final data = jsonDecode(response.body);
+        return AttendanceListModel.fromJson(data);
+        
       } else {
-        return 'Failed to load: ${response.statusCode} ${response.body}';
+        return null;
       }
     } catch (e) {
-      return 'Error occurred while loading: $e';
+      print('An error occurred: $e');
+      return null;
     }
   }
 }

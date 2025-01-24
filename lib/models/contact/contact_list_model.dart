@@ -12,12 +12,16 @@ class ContactListModel {
   String? name;
   String? email;
   String? phone;
+  String? branch;
+  String? role;
 
   ContactListModel({
     this.id,
     this.name,
     this.email,
     this.phone,
+    this.branch,
+    this.role,
   });
 
   factory ContactListModel.fromJson(Map<String, dynamic> json) =>
@@ -26,6 +30,8 @@ class ContactListModel {
         name: json["name"],
         email: json["email"],
         phone: json["phone"],
+        branch: json["branch"],
+        role: json["role"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -33,5 +39,7 @@ class ContactListModel {
         "name": name,
         "email": email,
         "phone": phone,
+        "branch": branch,
+        "role": role,
       };
 }

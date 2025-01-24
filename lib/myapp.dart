@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:resturant/bloc/attendance/get_attendance_cubit.dart';
+import 'package:resturant/bloc/attendance/checkin_out/checkin_bloc.dart';
+import 'package:resturant/bloc/attendance/list/get_attendance_cubit.dart';
+import 'package:resturant/bloc/attendance/status/attendance_status_cubit.dart';
 import 'package:resturant/bloc/auth/auth_bloc.dart';
 import 'package:resturant/bloc/auth/change_password/change_password_bloc.dart';
 import 'package:resturant/bloc/contact/create/contact_create_bloc.dart';
@@ -15,6 +17,8 @@ import 'package:resturant/bloc/employee/edit/users_edit_bloc.dart';
 import 'package:resturant/bloc/employee/list/users_bloc.dart';
 import 'package:resturant/bloc/employee/list/users_event.dart';
 import 'package:resturant/screen/auth/login_view.dart';
+import 'package:resturant/service/attendance/attendance_status_service.dart';
+import 'package:resturant/service/attendance/checkin/checkinout_service.dart';
 import 'package:resturant/service/attendance/get_attendance_service.dart';
 import 'package:resturant/service/auth/auth_repository.dart';
 import 'package:resturant/service/auth/change_password_service.dart';
@@ -31,6 +35,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final authBloc = AuthBloc(authRepository: AuthService());
         final deleteUserService = DeleteUserService(authBloc: authBloc);
+        final attendanceStatusService = AttendanceStatusService(authBloc: authBloc);
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => AuthBloc(authRepository: AuthService())),
@@ -66,6 +71,8 @@ class MyApp extends StatelessWidget {
             GetAttendanceService(authBloc: context.read<AuthBloc>()),
           ),
         ),
+        BlocProvider(create: (context) => AttendanceStatusCubit(attendanceStatusService)),
+        BlocProvider(create: (context) => CheckInBloc(CheckInService(authBloc: authBloc))),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
