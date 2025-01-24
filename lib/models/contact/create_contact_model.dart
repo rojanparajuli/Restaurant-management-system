@@ -2,11 +2,15 @@ class CreateContactModel {
   String? name;
   String? email;
   String? phone;
+  String ? branch;
+  String ? role;
 
   CreateContactModel({
     this.name,
     this.email,
     this.phone,
+    this.branch,
+    this.role
   });
 
   factory CreateContactModel.fromJson(Map<String, dynamic> json) =>
@@ -14,12 +18,16 @@ class CreateContactModel {
         name: json["name"],
         email: json["email"],
         phone: json["phone"],
+        branch: json["branch"],
+        role: json["role"]
       );
 
   Map<String, dynamic> toJson() => {
         "name": name,
         "email": email,
         "phone": phone,
+        "branch": branch,
+        "role": role
       };
 }
 
@@ -29,6 +37,9 @@ class CreateContactResponseModel {
   String? email;
   String? phone;
   String? message;
+    String ? role;
+  String ? branch;
+
 
   CreateContactResponseModel({
     this.id,
@@ -36,6 +47,8 @@ class CreateContactResponseModel {
     this.email,
     this.phone,
     this.message,
+    this.role,
+    this.branch
   });
 
   factory CreateContactResponseModel.fromJson(Map<String, dynamic> json) =>
@@ -45,6 +58,8 @@ class CreateContactResponseModel {
         email: json["email"],
         phone: json["phone"],
         message: json["message"],
+        role: json["role"],
+        branch: json["branch"]
       );
 
   Map<String, dynamic> toJson() => {
@@ -53,5 +68,7 @@ class CreateContactResponseModel {
         "email": email,
         "phone": phone,
         "message": message,
+        "role": role,
+        "branch": branch
       };
 }

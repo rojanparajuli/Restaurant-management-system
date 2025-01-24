@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:resturant/bloc/attendance/get_attendance_cubit.dart';
-import 'package:resturant/bloc/attendance/get_attendance_state.dart';
+import 'package:resturant/bloc/attendance/list/get_attendance_cubit.dart';
+import 'package:resturant/bloc/attendance/list/get_attendance_state.dart';
 import 'package:resturant/components/colors.dart';
 
 class AttendanceListScreen extends StatefulWidget {
@@ -24,7 +24,10 @@ class _AttendanceListScreenState extends State<AttendanceListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Attendance' , style: TextStyle(color: Colors.white),),
+        title: const Text(
+          'Attendance',
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
         backgroundColor: AppColor.primaryColor,
         automaticallyImplyLeading: false,
@@ -43,34 +46,68 @@ class _AttendanceListScreenState extends State<AttendanceListScreen> {
             }
             return Stack(
               children: [
-                    Opacity(
-                        opacity: 0.1,
-                        child: Image.asset(
-                          'assets/icons/Business.png',
-                          width: double.infinity,
-                          height: double.infinity,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                Opacity(
+                  opacity: 0.1,
+                  child: Image.asset(
+                    'assets/icons/Business.png',
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
                 ListView.builder(
                   itemCount: state.attendance.length,
                   itemBuilder: (context, index) {
                     final attendance = state.attendance[index];
+                    if (attendance.records == null ||
+                        attendance.records!.isEmpty) {
+                      return const Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Text(
+                          'No records found for this attendance.',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      );
+                    }
+
                     return Card(
+                      color: Colors.transparent,
                       margin: const EdgeInsets.symmetric(
                           vertical: 8, horizontal: 16),
-                      child: ListTile(
-                        title: Text('User ID: ${attendance.userId}'),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Check-In: ${attendance.checkInTime}'),
-                            Text('Check-Out: ${attendance.checkOutTime ?? "N/A"}'),
-                            Text(
-                              'Location: Check-In: ${attendance.locationLatLong?.checkin}, Check-Out: ${attendance.locationLatLong?.checkout}',
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: attendance.records!.map((record) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'User ID: ${record.userId ?? "N/A"}',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      'Check-In: ${record.checkInTime?.toIso8601String() ?? "N/A"}',
+                                    ),
+                                    Text(
+                                      'Check-Out: ${record.checkOutTime?.toIso8601String() ?? "N/A"}',
+                                    ),
+                                    Text(
+                                      'Location: Check-In: ${record.locationLatLong?.checkin ?? "N/A"}, '
+                                      'Check-Out: ${record.locationLatLong?.checkout ?? "N/A"}',
+                                    ),
+                                  ],
+                                );
+                              }).toList(),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     );
                   },
@@ -79,7 +116,10 @@ class _AttendanceListScreenState extends State<AttendanceListScreen> {
             );
           } else if (state is GetAttendanceError) {
             return Center(
-              child: Text('Attendance Unavailable'),
+              child: Text(
+                state.message,
+                style: const TextStyle(color: Colors.red),
+              ),
             );
           } else {
             return const Center(

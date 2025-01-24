@@ -12,6 +12,8 @@ class CreateContactScreen extends StatelessWidget {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
+  final _branchhController = TextEditingController();
+  final _addressController = TextEditingController();
 
   CreateContactScreen({super.key});
 
@@ -83,6 +85,9 @@ class CreateContactScreen extends StatelessWidget {
                             CustomTextField(
                                 labelText: "Phone Number", controller: _phoneController),
                             SizedBox(height: 16),
+                            CustomTextField(labelText: 'Branch', controller: _branchhController),
+                            SizedBox(height: 16),
+                            CustomTextField(labelText: 'Address', controller: _addressController),
                             SizedBox(
                               height: 50,
                               width: 500,
@@ -97,11 +102,15 @@ class CreateContactScreen extends StatelessWidget {
                                       name: _nameController.text,
                                       email: _emailController.text,
                                       phone: _phoneController.text,
+                                      branch: _branchhController.text,
+                                      role: _addressController.text
                                     );
                                     context.read<ContactBloc>().add(CreateContact(contact));
                                     _nameController.clear();
                                     _emailController.clear();
                                     _phoneController.clear();
+                                    _branchhController.clear();
+                                    _addressController.clear();
                                   }
                                 },
                                 child: Text('Create Contact',style: TextStyle(color: Colors.white),),
