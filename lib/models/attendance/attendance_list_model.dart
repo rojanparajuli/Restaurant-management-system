@@ -7,51 +7,59 @@ String attendanceListModelToJson(AttendanceListModel data) =>
     json.encode(data.toJson());
 
 class AttendanceListModel {
-  int? count;
-  List<Record>? records;
+  final int? count;
+  final List<Record>? records;
 
   AttendanceListModel({
-    this.count,
-    this.records,
+    required this.count,
+    required this.records,
   });
 
   factory AttendanceListModel.fromJson(Map<String, dynamic> json) =>
       AttendanceListModel(
-        count: json["count"],
-        records:
-            List<Record>.from(json["records"].map((x) => Record.fromJson(x))),
+        count: json["count"] as int?,
+        records: json["records"] != null
+            ? List<Record>.from(
+                (json["records"] as List).map((x) => Record.fromJson(x)))
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
         "count": count,
-        "records": List<dynamic>.from(records!.map((x) => x.toJson())),
+        "records": records?.map((x) => x.toJson()).toList(),
       };
 }
 
 class Record {
-  int? id;
-  DateTime? checkInTime;
-  DateTime? checkOutTime;
-  LocationLatLong? locationLatLong;
-  String? status;
-  int? userId;
+  final int? id;
+  final DateTime? checkInTime;
+  final DateTime? checkOutTime;
+  final LocationLatLong? locationLatLong;
+  final String? status;
+  final int? userId;
 
   Record({
-    this.id,
-    this.checkInTime,
-    this.checkOutTime,
-    this.locationLatLong,
-    this.status,
-    this.userId,
+    required this.id,
+    required this.checkInTime,
+    required this.checkOutTime,
+    required this.locationLatLong,
+    required this.status,
+    required this.userId,
   });
 
   factory Record.fromJson(Map<String, dynamic> json) => Record(
-        id: json["id"],
-        checkInTime: DateTime.parse(json["check_in_time"]),
-        checkOutTime: DateTime.parse(json["check_out_time"]),
-        locationLatLong: LocationLatLong.fromJson(json["location_lat_long"]),
-        status: json["status"],
-        userId: json["user_id"],
+        id: json["id"] as int?,
+        checkInTime: json["check_in_time"] != null
+            ? DateTime.parse(json["check_in_time"])
+            : null,
+        checkOutTime: json["check_out_time"] != null
+            ? DateTime.parse(json["check_out_time"])
+            : null,
+        locationLatLong: json["location_lat_long"] != null
+            ? LocationLatLong.fromJson(json["location_lat_long"])
+            : null,
+        status: json["status"] as String?,
+        userId: json["user_id"] as int?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -65,18 +73,18 @@ class Record {
 }
 
 class LocationLatLong {
-  String? checkin;
-  String? checkout;
+  final String? checkin;
+  final String? checkout;
 
   LocationLatLong({
-    this.checkin,
-    this.checkout,
+    required this.checkin,
+    required this.checkout,
   });
 
   factory LocationLatLong.fromJson(Map<String, dynamic> json) =>
       LocationLatLong(
-        checkin: json["checkin"],
-        checkout: json["checkout"],
+        checkin: json["checkin"] as String?,
+        checkout: json["checkout"] as String?,
       );
 
   Map<String, dynamic> toJson() => {

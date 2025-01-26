@@ -17,119 +17,168 @@ class SideMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Row(
-        children: [
-          Container(
-            width: 250,
-            color: AppColor.primaryColor,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                Card(
-                  child: ListTile(
-                    leading: const Icon(Icons.dashboard, color: Colors.red),
-                    title: const Text('Dashboard'),
-                    onTap: () {
-                      context.read<SideMenuCubit>().selectMenuItem(0);
-                    },
-                  ),
-                ),
-                Card(
-                  child: ListTile(
-                    leading: const Icon(Icons.list, color: Colors.red),
-                    title: const Text('Employee List'),
-                    onTap: () {
-                      context.read<SideMenuCubit>().selectMenuItem(1);
-                    },
-                  ),
-                ),
-                Card(
-                  child: ListTile(
-                    leading: const Icon(Icons.lock, color: Colors.red),
-                    title: const Text('Change Password'),
-                    onTap: () {
-                      context.read<SideMenuCubit>().selectMenuItem(2);
-                    },
-                  ),
-                ),
-                Card(
-                  child: ListTile(
-                    leading: const Icon(Icons.person_add, color: Colors.red),
-                    title: const Text('Create Contact'),
-                    onTap: () {
-                      context.read<SideMenuCubit>().selectMenuItem(3);
-                    },
-                  ),
-                ),
-                Card(
-                  child: ListTile(
-                    leading: const Icon(Icons.contact_phone_rounded, color: Colors.red),
-                    title: const Text('Contact List'),
-                    onTap: () {
-                      context.read<SideMenuCubit>().selectMenuItem(4);
-                    },
-                  ),
-                ),
-                   Card(
-                  child: ListTile(
-                    leading: const Icon(Icons.person_add, color: Colors.red),
-                    title: const Text('Add Employee'),
-                    onTap: () {
-                      context.read<SideMenuCubit>().selectMenuItem(5);
-                    },
-                  ),
-                ),
-                Card(
-                  child: ListTile(
-                    leading: const Icon(Icons.calendar_month, color: Colors.red),
-                    title: const Text('Attendance'),
-                    onTap: () {
-                      context.read<SideMenuCubit>().selectMenuItem(6);
-                    },
-                  ),
-                ),
-                const Divider(),
-                Card(
-                  child: ListTile(
-                    leading: const Icon(Icons.logout, color: Colors.red),
-                    title: const Text('Logout'),
-                    onTap: () {
-                      context.read<AuthBloc>().logout();
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginScreen(),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: BlocBuilder<SideMenuCubit, int>(
-              builder: (context, selectedIndex) {
-                final List<Widget> pages = [
-                  const DashBoard(),
-                  const UserListScreen(),
-                  ChangePasswordScreen(),
-                  CreateContactScreen(),
-                  ContactListView(),
-                  AddUserView(),
-                  AttendanceListScreen(),
-                ];
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isMobile = constraints.maxWidth < 600;
+        final isTablet = constraints.maxWidth >= 600 && constraints.maxWidth < 1024;
 
-                print("Selected Index: $selectedIndex"); 
-                return pages[selectedIndex];
-              },
-            ),
+        return Scaffold(
+          appBar: isMobile
+              ? AppBar(
+                  backgroundColor: AppColor.primaryColor,
+                  title: const Text('Side Menu'),
+                )
+              : null,
+          drawer: isMobile
+              ? Drawer(
+                  child: MenuContent(
+                    isCollapsed: true,
+                  ),
+                )
+              : null,
+          body: Row(
+            children: [
+              if (!isMobile)
+                Container(
+                  width: isTablet ? 200 : 250,
+                  color: AppColor.primaryColor,
+                  child: MenuContent(
+                    isCollapsed: false,
+                  ),
+                ),
+              Expanded(
+                child: BlocBuilder<SideMenuCubit, int>(
+                  builder: (context, selectedIndex) {
+                    final List<Widget> pages = [
+                      const DashBoard(),
+                      const UserListScreen(),
+                      ChangePasswordScreen(),
+                      CreateContactScreen(),
+                      ContactListView(),
+                      AddUserView(),
+                      AttendanceListScreen(),
+                    ];
+
+                    return pages[selectedIndex];
+                  },
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
 
+class MenuContent extends StatelessWidget {
+  final bool isCollapsed;
+
+  const MenuContent({super.key, required this.isCollapsed});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        const SizedBox(height: 20),
+        MenuItem(
+          icon: Icons.dashboard,
+          title: 'Dashboard',
+          isCollapsed: isCollapsed,
+          onTap: () {
+            context.read<SideMenuCubit>().selectMenuItem(0);
+          },
+        ),
+        MenuItem(
+          icon: Icons.list,
+          title: 'Employee List',
+          isCollapsed: isCollapsed,
+          onTap: () {
+            context.read<SideMenuCubit>().selectMenuItem(1);
+          },
+        ),
+        MenuItem(
+          icon: Icons.lock,
+          title: 'Change Password',
+          isCollapsed: isCollapsed,
+          onTap: () {
+            context.read<SideMenuCubit>().selectMenuItem(2);
+          },
+        ),
+        MenuItem(
+          icon: Icons.person_add,
+          title: 'Create Contact',
+          isCollapsed: isCollapsed,
+          onTap: () {
+            context.read<SideMenuCubit>().selectMenuItem(3);
+          },
+        ),
+        MenuItem(
+          icon: Icons.contact_phone_rounded,
+          title: 'Contact List',
+          isCollapsed: isCollapsed,
+          onTap: () {
+            context.read<SideMenuCubit>().selectMenuItem(4);
+          },
+        ),
+        MenuItem(
+          icon: Icons.person_add,
+          title: 'Add Employee',
+          isCollapsed: isCollapsed,
+          onTap: () {
+            context.read<SideMenuCubit>().selectMenuItem(5);
+          },
+        ),
+        MenuItem(
+          icon: Icons.calendar_month,
+          title: 'Attendance',
+          isCollapsed: isCollapsed,
+          onTap: () {
+            context.read<SideMenuCubit>().selectMenuItem(6);
+          },
+        ),
+        const Divider(),
+        MenuItem(
+          icon: Icons.logout,
+          title: 'Logout',
+          isCollapsed: isCollapsed,
+          onTap: () {
+            context.read<AuthBloc>().logout();
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const LoginScreen(),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class MenuItem extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final bool isCollapsed;
+  final VoidCallback onTap;
+
+  const MenuItem({
+    Key? key,
+    required this.icon,
+    required this.title,
+    required this.isCollapsed,
+    required this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: ListTile(
+        leading: Icon(icon, color: Colors.red),
+        title: isCollapsed ? null : Text(title),
+        onTap: onTap,
+      ),
+    );
+  }
+}
