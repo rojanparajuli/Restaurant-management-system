@@ -21,9 +21,12 @@ class CheckInService {
       body: jsonEncode(request.toJson()),
     );
 
-    if (response.statusCode == 200) {
+    print('response rojan cf: ${response.body}');
+
+    if (response.statusCode == 201) {
       return CheckInResponseModel.fromJson(jsonDecode(response.body));
     } else {
+      print('rojan mf');
       throw Exception("Failed to check in: ${response.body}");
     }
   }
