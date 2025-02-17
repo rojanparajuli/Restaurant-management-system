@@ -20,7 +20,8 @@ class SideMenu extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isMobile = constraints.maxWidth < 600;
-        final isTablet = constraints.maxWidth >= 600 && constraints.maxWidth < 1024;
+        final isTablet =
+            constraints.maxWidth >= 600 && constraints.maxWidth < 1024;
 
         return Scaffold(
           appBar: isMobile
@@ -57,6 +58,9 @@ class SideMenu extends StatelessWidget {
                       ContactListView(),
                       AddUserView(),
                       // AttendanceListScreen(),
+                      SizedBox(),
+                      SizedBox(),
+                      SizedBox(),
                     ];
 
                     return pages[selectedIndex];
@@ -129,14 +133,30 @@ class MenuContent extends StatelessWidget {
             context.read<SideMenuCubit>().selectMenuItem(5);
           },
         ),
-        // MenuItem(
-        //   icon: Icons.calendar_month,
-        //   title: 'Attendance',
-        //   isCollapsed: isCollapsed,
-        //   onTap: () {
-        //     context.read<SideMenuCubit>().selectMenuItem(6);
-        //   },
-        // ),
+        MenuItem(
+          icon: Icons.food_bank,
+          title: 'order',
+          isCollapsed: isCollapsed,
+          onTap: () {
+            context.read<SideMenuCubit>().selectMenuItem(6);
+          },
+        ),
+         MenuItem(
+          icon: Icons.table_view,
+          title: 'Table',
+          isCollapsed: isCollapsed,
+          onTap: () {
+            context.read<SideMenuCubit>().selectMenuItem(6);
+          },
+        ),
+         MenuItem(
+          icon: Icons.menu_book,
+          title: 'Menu',
+          isCollapsed: isCollapsed,
+          onTap: () {
+            context.read<SideMenuCubit>().selectMenuItem(6);
+          },
+        ),
         const Divider(),
         MenuItem(
           icon: Icons.logout,
