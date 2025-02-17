@@ -401,6 +401,7 @@ class EditUserScreen extends StatelessWidget {
                     ),
                     Column(
                       children: [
+                        
                         BlocListener<EditUserBloc, EditUserState>(
                           listener: (context, state) {
                             if (state is CitizenshipUploadSuccess) {

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resturant/bloc/auth/auth_bloc.dart';
 import 'package:resturant/bloc/side_menu/side_menu_bloc.dart';
 import 'package:resturant/components/colors.dart';
-import 'package:resturant/screen/attendance/attendance_screen.dart';
+// import 'package:resturant/screen/attendance/attendance_screen.dart';
 import 'package:resturant/screen/employee/add_user_view.dart';
 import 'package:resturant/screen/auth/change_password_view.dart';
 import 'package:resturant/screen/auth/login_view.dart';
@@ -56,7 +56,7 @@ class SideMenu extends StatelessWidget {
                       CreateContactScreen(),
                       ContactListView(),
                       AddUserView(),
-                      AttendanceListScreen(),
+                      // AttendanceListScreen(),
                     ];
 
                     return pages[selectedIndex];
@@ -129,14 +129,14 @@ class MenuContent extends StatelessWidget {
             context.read<SideMenuCubit>().selectMenuItem(5);
           },
         ),
-        MenuItem(
-          icon: Icons.calendar_month,
-          title: 'Attendance',
-          isCollapsed: isCollapsed,
-          onTap: () {
-            context.read<SideMenuCubit>().selectMenuItem(6);
-          },
-        ),
+        // MenuItem(
+        //   icon: Icons.calendar_month,
+        //   title: 'Attendance',
+        //   isCollapsed: isCollapsed,
+        //   onTap: () {
+        //     context.read<SideMenuCubit>().selectMenuItem(6);
+        //   },
+        // ),
         const Divider(),
         MenuItem(
           icon: Icons.logout,
@@ -164,12 +164,12 @@ class MenuItem extends StatelessWidget {
   final VoidCallback onTap;
 
   const MenuItem({
-    Key? key,
+    super.key,
     required this.icon,
     required this.title,
     required this.isCollapsed,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
